@@ -121,8 +121,32 @@ SAZU API 응답:
         return "\n".join(texts)
     raise RuntimeError("AI 상담 텍스트를 찾지 못했습니다.")
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
+    if request.method == "POST":
+        name = request.form.get("name", "")
+        birthdate = request.form.get("birthdate", "")
+        birthtime = request.form.get("birthtime", "")
+
+        p = {
+            "name": name,
+            "birth": f"{birthdate}T{birthtime}"
+        }
+
+        try:
+            sazu = call_sazu(p)
+            text = call_openai(p, sazu)
+            return f"""
+            <h2>{name}님의 사주 분석</h2>
+            <div style="white-space:pre-wrap; font-size:18px; line-height:1.7;">
+            {text}
+            </div>
+            <br>
+            <a href="/">다시 보기</a>
+            """
+        except Exception as e:
+            return f"오류가 발생했습니다: {e}", 500
+
     return render_template("index.html")
 
 @app.route("/api/test-sazu", methods=["POST"])
