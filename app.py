@@ -13,16 +13,82 @@ app = Flask(__name__)
 SEOUL_TZ = ZoneInfo("Asia/Seoul")
 ELEMENT_KO = {"木": "목", "火": "화", "土": "토", "金": "금", "水": "수"}
 
+GAN_KO = {
+    "甲": "갑", "乙": "을", "丙": "병", "丁": "정", "戊": "무",
+    "己": "기", "庚": "경", "辛": "신", "壬": "임", "癸": "계",
+}
+BRANCH_KO = {
+    "子": "자", "丑": "축", "寅": "인", "卯": "묘", "辰": "진", "巳": "사",
+    "午": "오", "未": "미", "申": "신", "酉": "유", "戌": "술", "亥": "해",
+}
+SHISHEN_KO = {
+    "比肩": "비견",
+    "劫財": "겁재", "劫财": "겁재",
+    "食神": "식신",
+    "傷官": "상관", "伤官": "상관",
+    "偏財": "편재", "偏财": "편재",
+    "正財": "정재", "正财": "정재",
+    "七殺": "편관", "七杀": "편관",
+    "偏官": "편관",
+    "正官": "정관",
+    "偏印": "편인",
+    "正印": "정인",
+    "日主": "일간",
+}
+
+
+def ganji_ko(value):
+    value = (value or "").strip()
+    if len(value) < 2:
+        return value
+    gan = GAN_KO.get(value[0])
+    branch = BRANCH_KO.get(value[1])
+    if not gan or not branch:
+        return value
+    return f"{gan}{branch}({value})"
+
+
+def wuxing_pair_ko(value):
+    value = (value or "").strip()
+    if not value or value == "미상":
+        return value
+    korean = "".join(ELEMENT_KO.get(ch, ch) for ch in value)
+    return f"{korean}({value})"
+
+
+def shishen_ko(value):
+    value = (value or "").strip()
+    korean = SHISHEN_KO.get(value)
+    return f"{korean}({value})" if korean else value
+
 
 def parse_date(value):
-    value = (value or "").strip().replace(".", "-").replace("/", "-")
-    parts = [p for p in value.split("-") if p]
-    if len(parts) != 3:
-        raise ValueError("생년월일 형식을 확인해 주세요. 예: 1957-04-12")
-    try:
+    raw = (value or "").strip()
+    if not raw:
+        raise ValueError("생년월일을 입력해 주세요.")
+
+    # 19570412처럼 숫자 8자리만 입력한 경우
+    digits_only = re.sub(r"\s+", "", raw)
+    if re.fullmatch(r"\d{8}", digits_only):
+        year = int(digits_only[:4])
+        month = int(digits_only[4:6])
+        day = int(digits_only[6:8])
+    else:
+        # 1957-4-12, 1957.4.12, 1957/4/12, 1957년 4월 12일 등을 모두 허용
+        parts = re.findall(r"\d+", raw)
+        if len(parts) != 3 or len(parts[0]) != 4:
+            raise ValueError(
+                "생년월일 형식을 확인해 주세요. 예: 1957-04-12, 1957.4.12, 19570412"
+            )
         year, month, day = map(int, parts)
-    except ValueError as exc:
-        raise ValueError("생년월일에는 숫자만 입력해 주세요.") from exc
+
+    if not (1800 <= year <= 2100):
+        raise ValueError("출생연도를 1800~2100년 범위로 입력해 주세요.")
+    if not (1 <= month <= 12):
+        raise ValueError("출생 월을 1~12 사이로 입력해 주세요.")
+    if not (1 <= day <= 31):
+        raise ValueError("출생 일을 1~31 사이로 입력해 주세요.")
+
     return year, month, day
 
 
@@ -94,10 +160,15 @@ def build_manse(year, month, day, calendar_type, leap_month, birthtime, gender):
     eight = lunar.getEightChar()
     eight.setSect(2)
 
-    year_pillar = eight.getYear()
-    month_pillar = eight.getMonth()
-    day_pillar = eight.getDay()
-    time_pillar = eight.getTime() if has_birthtime else "출생시간 미상"
+    year_pillar_raw = eight.getYear()
+    month_pillar_raw = eight.getMonth()
+    day_pillar_raw = eight.getDay()
+    time_pillar_raw = eight.getTime() if has_birthtime else None
+
+    year_pillar = ganji_ko(year_pillar_raw)
+    month_pillar = ganji_ko(month_pillar_raw)
+    day_pillar = ganji_ko(day_pillar_raw)
+    time_pillar = ganji_ko(time_pillar_raw) if has_birthtime else "출생시간 미상"
 
     year_wuxing = eight.getYearWuXing()
     month_wuxing = eight.getMonthWuXing()
@@ -114,16 +185,16 @@ def build_manse(year, month, day, calendar_type, leap_month, birthtime, gender):
     element_text = " · ".join(f"{name} {count}" for name, count in element_counts.items())
 
     shishen_gan = [
-        eight.getYearShiShenGan(),
-        eight.getMonthShiShenGan(),
-        eight.getDayShiShenGan(),
+        shishen_ko(eight.getYearShiShenGan()),
+        shishen_ko(eight.getMonthShiShenGan()),
+        shishen_ko(eight.getDayShiShenGan()),
     ]
     if has_birthtime:
-        shishen_gan.append(eight.getTimeShiShenGan())
+        shishen_gan.append(shishen_ko(eight.getTimeShiShenGan()))
 
     now = datetime.now(SEOUL_TZ)
     today_lunar = Solar.fromYmd(now.year, now.month, now.day).getLunar()
-    current_year_ganzhi = today_lunar.getYearInGanZhiExact()
+    current_year_ganzhi = ganji_ko(today_lunar.getYearInGanZhiExact())
 
     daeyun_text = "출생시간 미상으로 정밀 대운 계산을 생략합니다."
     current_daeyun = "확정하지 않음"
@@ -139,13 +210,14 @@ def build_manse(year, month, day, calendar_type, leap_month, birthtime, gender):
         daeyun_items = yun.getDaYun(10)[1:9]
         daeyun_parts = []
         for item in daeyun_items:
+            daeyun_name = ganji_ko(item.getGanZhi())
             daeyun_parts.append(
-                f"{item.getGanZhi()}({item.getStartAge()}~{item.getEndAge()}세, "
+                f"{daeyun_name} ({item.getStartAge()}~{item.getEndAge()}세, "
                 f"{item.getStartYear()}~{item.getEndYear()})"
             )
             if item.getStartYear() <= now.year <= item.getEndYear():
                 current_daeyun = (
-                    f"{item.getGanZhi()} 대운 "
+                    f"{daeyun_name} 대운 "
                     f"({item.getStartAge()}~{item.getEndAge()}세, "
                     f"{item.getStartYear()}~{item.getEndYear()})"
                 )
@@ -156,8 +228,10 @@ def build_manse(year, month, day, calendar_type, leap_month, birthtime, gender):
         f"일주 {day_pillar} / 시주 {time_pillar}"
     )
     wuxing_text = (
-        f"년주 {year_wuxing} / 월주 {month_wuxing} / "
-        f"일주 {day_wuxing} / 시주 {time_wuxing}"
+        f"년주 {wuxing_pair_ko(year_wuxing)} / "
+        f"월주 {wuxing_pair_ko(month_wuxing)} / "
+        f"일주 {wuxing_pair_ko(day_wuxing)} / "
+        f"시주 {wuxing_pair_ko(time_wuxing)}"
     )
 
     return {
