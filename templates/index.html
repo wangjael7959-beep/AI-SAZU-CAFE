@@ -1,309 +1,347 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI 사주카페</title>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#4b2a7b">
+  <title>AI 사주카페 | 만세력 기반 사주 상담</title>
+  <meta name="description" content="음력·양력·윤달과 출생시간을 반영한 만세력 계산을 바탕으로 AI가 이해하기 쉽게 풀어드리는 사주 상담 서비스입니다.">
   <style>
-    * {
-      box-sizing: border-box;
+    :root{
+      --bg:#f7f3fb;
+      --card:#ffffff;
+      --ink:#241d2c;
+      --muted:#746c7e;
+      --primary:#5b2d8b;
+      --primary-dark:#432066;
+      --primary-soft:#f1e8fa;
+      --gold:#ad7d2f;
+      --line:#e8e0ee;
+      --danger:#a73737;
+      --danger-bg:#fff1f1;
+      --success:#356f51;
+      --shadow:0 10px 30px rgba(67,32,102,.08);
+      --radius:22px;
     }
-
-    body {
-      margin: 0;
-      background: #f5f3ef;
-      font-family: Arial, "Noto Sans KR", sans-serif;
-      color: #222;
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 8% 0%, rgba(91,45,139,.08), transparent 28%),
+        radial-gradient(circle at 100% 8%, rgba(173,125,47,.07), transparent 25%),
+        var(--bg);
+      font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic","Segoe UI",sans-serif;
+      line-height:1.7;
+      word-break:keep-all;
     }
-
-    .container {
-      max-width: 620px;
-      margin: 0 auto;
-      padding: 24px 18px 50px;
+    .wrap{width:min(820px,calc(100% - 28px));margin:0 auto;padding:24px 0 64px}
+    .hero{
+      background:linear-gradient(145deg,#3e1d61,#6b389a 68%,#7a4ba2);
+      color:#fff;
+      border-radius:28px;
+      padding:28px 24px;
+      box-shadow:0 16px 40px rgba(67,32,102,.2);
+      position:relative;
+      overflow:hidden;
     }
-
-    .card {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 24px 20px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    .hero:after{
+      content:"";
+      position:absolute;
+      right:-52px;top:-58px;
+      width:180px;height:180px;border-radius:50%;
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 0 0 28px rgba(255,255,255,.035),0 0 0 58px rgba(255,255,255,.025);
     }
-
-    h1 {
-      font-size: 32px;
-      margin: 0 0 10px;
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:15px;letter-spacing:.02em}
+    .brand-mark{
+      width:34px;height:34px;border-radius:50%;
+      display:grid;place-items:center;
+      background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.23);
+      font-size:18px;
     }
-
-    .intro {
-      color: #555;
-      line-height: 1.6;
-      margin-bottom: 28px;
+    .hero h1{font-size:clamp(28px,7vw,42px);line-height:1.2;margin:18px 0 8px;letter-spacing:-.04em}
+    .hero p{margin:0;color:rgba(255,255,255,.85);font-size:15px;max-width:620px}
+    .trust-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+    .trust-chip{
+      font-size:12px;padding:7px 10px;border-radius:999px;
+      background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16)
     }
-
-    .field {
-      margin-bottom: 22px;
+    .card{
+      margin-top:18px;background:var(--card);border:1px solid rgba(91,45,139,.08);
+      border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)
     }
-
-    .field-title {
-      display: block;
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 9px;
+    .section-title{display:flex;align-items:flex-start;gap:11px;margin-bottom:18px}
+    .section-icon{
+      flex:0 0 auto;width:38px;height:38px;border-radius:13px;display:grid;place-items:center;
+      background:var(--primary-soft);color:var(--primary);font-size:20px
     }
-
-    input[type="text"],
-    input[type="date"],
-    input[type="time"],
-    select,
-    textarea {
-      width: 100%;
-      font-size: 18px;
-      padding: 13px 12px;
-      border: 1px solid #bbb;
-      border-radius: 9px;
-      background: white;
+    .section-title h2{margin:0;font-size:21px;line-height:1.35;letter-spacing:-.025em}
+    .section-title p{margin:4px 0 0;color:var(--muted);font-size:13px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .field{min-width:0}
+    .field.full{grid-column:1/-1}
+    label,.label{display:block;font-size:13px;font-weight:750;margin:0 0 7px}
+    .required{color:var(--primary)}
+    input,textarea{
+      width:100%;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);
+      padding:13px 14px;font:inherit;outline:none;transition:.18s;border-color:.18s,box-shadow .18s
     }
-
-    textarea {
-      min-height: 110px;
-      resize: vertical;
+    input:focus,textarea:focus{border-color:#8c61ae;box-shadow:0 0 0 4px rgba(91,45,139,.08)}
+    textarea{resize:vertical;min-height:108px}
+    .choice{display:flex;gap:8px;flex-wrap:wrap}
+    .choice input{position:absolute;opacity:0;pointer-events:none}
+    .choice label{
+      margin:0;cursor:pointer;padding:11px 15px;border:1px solid var(--line);border-radius:13px;
+      background:#fff;font-weight:700;font-size:14px;transition:.18s
     }
-
-    .choice-group {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+    .choice input:checked + label{border-color:var(--primary);background:var(--primary-soft);color:var(--primary)}
+    .help{font-size:12px;color:var(--muted);margin-top:6px}
+    .consent{
+      display:flex;gap:10px;align-items:flex-start;margin-top:17px;padding:13px 14px;
+      border-radius:14px;background:#faf8fc;border:1px solid var(--line);font-size:12px;color:#5f5867
     }
-
-    .choice {
-      border: 1px solid #bbb;
-      border-radius: 9px;
-      padding: 11px 16px;
-      background: #fafafa;
-      font-size: 17px;
+    .consent input{width:18px;height:18px;margin:1px 0 0;flex:0 0 auto;accent-color:var(--primary)}
+    .submit{
+      width:100%;border:0;border-radius:15px;padding:15px 18px;margin-top:16px;
+      background:linear-gradient(135deg,var(--primary),#74429e);color:#fff;
+      font:inherit;font-weight:850;font-size:17px;cursor:pointer;box-shadow:0 10px 24px rgba(91,45,139,.22)
     }
-
-    .choice input {
-      margin-right: 6px;
+    .submit:active{transform:translateY(1px)}
+    .error{
+      margin-top:18px;padding:16px 17px;border-radius:16px;border:1px solid #f0c6c6;
+      background:var(--danger-bg);color:var(--danger)
     }
-
-    .hint {
-      color: #777;
-      font-size: 14px;
-      margin-top: 7px;
-      line-height: 1.5;
+    .result-head{
+      border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:18px
     }
-
-    button {
-      width: 100%;
-      border: 0;
-      border-radius: 10px;
-      background: #3d2d67;
-      color: white;
-      padding: 15px;
-      font-size: 20px;
-      font-weight: 700;
-      cursor: pointer;
+    .result-head .eyebrow{font-size:12px;color:var(--gold);font-weight:850;letter-spacing:.08em}
+    .result-head h2{margin:5px 0 4px;font-size:25px;letter-spacing:-.035em}
+    .result-head p{margin:0;color:var(--muted);font-size:13px}
+    .manse-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .manse-item{
+      border:1px solid var(--line);border-radius:15px;padding:13px 14px;background:#fcfbfd
     }
-
-    button:active {
-      opacity: 0.85;
+    .manse-item.wide{grid-column:1/-1}
+    .manse-item .k{font-size:11px;color:var(--muted);font-weight:750;margin-bottom:3px}
+    .manse-item .v{font-size:15px;font-weight:780;line-height:1.55}
+    .pillars{
+      margin-top:14px;padding:17px;border-radius:17px;
+      background:linear-gradient(135deg,#f6effb,#fbf8fd);border:1px solid #e8d9f3
     }
-
-    .notice {
-      margin-top: 22px;
-      padding: 14px;
-      background: #f7f4ff;
-      border-radius: 10px;
-      color: #555;
-      font-size: 14px;
-      line-height: 1.6;
+    .pillars .k{font-size:12px;color:var(--primary);font-weight:850;margin-bottom:6px}
+    .pillars .v{font-size:18px;font-weight:850;line-height:1.65;letter-spacing:.01em}
+    .subsection{margin-top:18px}
+    .subsection h3{margin:0 0 9px;font-size:16px}
+    .flow{
+      padding:14px;border-radius:14px;background:#faf8fc;border:1px dashed #d9c9e5;
+      font-size:14px;line-height:1.75
+    }
+    .ai-card{
+      margin-top:18px;background:#fff;border-radius:var(--radius);padding:22px;
+      border:1px solid rgba(91,45,139,.1);box-shadow:var(--shadow)
+    }
+    .ai-badge{
+      display:inline-flex;align-items:center;gap:7px;background:var(--primary-soft);color:var(--primary);
+      border-radius:999px;padding:7px 11px;font-size:12px;font-weight:850
+    }
+    .ai-text{
+      margin-top:17px;font-size:16px;line-height:1.95;white-space:pre-line;color:#302938
+    }
+    .notice{
+      margin-top:18px;padding:15px 16px;border-radius:15px;background:#fffaf0;
+      border:1px solid #efe0bc;color:#665433;font-size:12.5px;line-height:1.7
+    }
+    .footer{text-align:center;color:var(--muted);font-size:11px;padding:24px 12px 0}
+    .footer strong{color:#5d5565}
+    @media (max-width:620px){
+      .wrap{width:min(100% - 20px,820px);padding-top:10px}
+      .hero{padding:23px 19px;border-radius:23px}
+      .card,.ai-card{padding:18px;border-radius:19px}
+      .grid,.manse-grid{grid-template-columns:1fr}
+      .field.full,.manse-item.wide{grid-column:auto}
+      .choice label{flex:1;text-align:center;min-width:72px}
+      .pillars .v{font-size:16px}
     }
   </style>
 </head>
-
 <body>
-  <div class="container">
-    <div class="card">
+  <main class="wrap">
+    <section class="hero">
+      <div class="brand"><span class="brand-mark">☯</span> AI 사주카페</div>
+      <h1>만세력으로 계산하고<br>AI가 쉽게 풀어드립니다</h1>
+      <p>양력·음력·윤달과 출생시간을 반영한 만세력 계산 결과를 바탕으로, 삶의 흐름을 이해하기 쉬운 상담문으로 정리합니다.</p>
+      <div class="trust-row">
+        <span class="trust-chip">만세력 계산 기반</span>
+        <span class="trust-chip">음력·윤달 지원</span>
+        <span class="trust-chip">대운·세운 참고</span>
+        <span class="trust-chip">AI 해석</span>
+      </div>
+    </section>
 
-      <h1>🔮 AI 사주카페</h1>
-
-      <p class="intro">
-        태어난 날짜와 시간을 입력하면 사주 상담을 시작합니다.
-        정확한 분석을 위해 알고 계신 정보를 가능한 한 정확하게 입력해 주세요.
-      </p>
-
-      <form method="POST">
-
-        <div class="field">
-          <label class="field-title" for="name">이름</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="이름을 입력하세요"
-            required
-          >
+    <section class="card" id="consult">
+      <div class="section-title">
+        <div class="section-icon">✦</div>
+        <div>
+          <h2>사주 상담 정보</h2>
+          <p>정확한 계산을 위해 알고 있는 정보를 그대로 입력해 주세요.</p>
         </div>
-
-        <div class="field">
-          <span class="field-title">성별</span>
-
-          <div class="choice-group">
-            <label class="choice">
-              <input type="radio" name="gender" value="남성" required>
-              남성
-            </label>
-
-            <label class="choice">
-              <input type="radio" name="gender" value="여성">
-              여성
-            </label>
-          </div>
-        </div>
-
-        <div class="field">
-          <span class="field-title">생년월일 기준</span>
-
-          <div class="choice-group">
-            <label class="choice">
-              <input
-                type="radio"
-                name="calendar_type"
-                value="양력"
-                checked
-                required
-              >
-              양력
-            </label>
-
-            <label class="choice">
-              <input
-                type="radio"
-                name="calendar_type"
-                value="음력"
-              >
-              음력
-            </label>
-          </div>
-        </div>
-
-        <div class="field">
-          <span class="field-title">음력 윤달 여부</span>
-
-          <div class="choice-group">
-            <label class="choice">
-              <input
-                type="radio"
-                name="leap_month"
-                value="평달"
-                checked
-              >
-              평달
-            </label>
-
-            <label class="choice">
-              <input
-                type="radio"
-                name="leap_month"
-                value="윤달"
-              >
-              윤달
-            </label>
-          </div>
-
-          <div class="hint">
-            양력 생일인 경우에는 평달로 그대로 두시면 됩니다.
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="field-title" for="birthdate">생년월일</label>
-
-          <input
-            type="date"
-            id="birthdate"
-            name="birthdate"
-            min="1900-01-01"
-            required
-          >
-        </div>
-
-        <div class="field">
-          <label class="field-title" for="birthtime">태어난 시간</label>
-
-          <input
-            type="time"
-            id="birthtime"
-            name="birthtime"
-          >
-
-          <div class="hint">
-            시간을 모르시면 비워두셔도 됩니다.
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="field-title" for="birthplace">출생지역</label>
-
-          <input
-            type="text"
-            id="birthplace"
-            name="birthplace"
-            placeholder="예: 광주광역시"
-          >
-        </div>
-
-        <div class="field">
-          <label class="field-title" for="question">상담하고 싶은 내용</label>
-
-          <textarea
-            id="question"
-            name="question"
-            placeholder="예: 올해 재물운과 건강운이 궁금합니다."
-          ></textarea>
-        </div>
-
-        <button type="submit">사주 보기</button>
-
-      </form>
-{% if error %}
-<div style="
-  margin-top:20px;
-  padding:16px;
-  border-radius:10px;
-  background:#fff0f0;
-  color:#b42318;
-  line-height:1.7;
-  white-space:pre-wrap;
-">
-  <strong>오류 안내</strong><br>
-  {{ error }}
-</div>
-{% endif %}
-
-{% if result %}
-<div style="
-  margin-top:24px;
-  padding:20px;
-  border-radius:12px;
-  background:#f7f4ff;
-  color:#222;
-  line-height:1.9;
-  white-space:pre-wrap;
-">
-  <h2 style="margin-top:0;">🔮 AI 사주 상담 결과</h2>
-  {{ result }}
-</div>
-{% endif %}
-      <div class="notice">
-        ※ 본 서비스의 해석은 참고용 상담 정보입니다.
-        중요한 의료·법률·재정적 결정의 유일한 근거로 사용하지 마세요.
       </div>
 
-    </div>
-  </div>
+      <form method="post" action="#result">
+        <div class="grid">
+          <div class="field">
+            <label for="name">이름 <span class="required">*</span></label>
+            <input id="name" name="name" type="text" autocomplete="name" value="{{ form.get('name','') }}" placeholder="예: 홍길동" required>
+          </div>
+
+          <div class="field">
+            <span class="label">성별 <span class="required">*</span></span>
+            <div class="choice">
+              <input id="gender-m" name="gender" type="radio" value="남성" {% if form.get('gender','남성') == '남성' %}checked{% endif %}>
+              <label for="gender-m">남성</label>
+              <input id="gender-f" name="gender" type="radio" value="여성" {% if form.get('gender') == '여성' %}checked{% endif %}>
+              <label for="gender-f">여성</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="label">달력 구분 <span class="required">*</span></span>
+            <div class="choice">
+              <input id="cal-solar" name="calendar_type" type="radio" value="양력" {% if form.get('calendar_type','양력') == '양력' %}checked{% endif %}>
+              <label for="cal-solar">양력</label>
+              <input id="cal-lunar" name="calendar_type" type="radio" value="음력" {% if form.get('calendar_type') == '음력' %}checked{% endif %}>
+              <label for="cal-lunar">음력</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="label">윤달 여부</span>
+            <div class="choice">
+              <input id="leap-normal" name="leap_month" type="radio" value="평달" {% if form.get('leap_month','평달') == '평달' %}checked{% endif %}>
+              <label for="leap-normal">평달</label>
+              <input id="leap-leap" name="leap_month" type="radio" value="윤달" {% if form.get('leap_month') == '윤달' %}checked{% endif %}>
+              <label for="leap-leap">윤달</label>
+            </div>
+            <div class="help">양력 선택 시 윤달 여부는 계산에 사용되지 않습니다.</div>
+          </div>
+
+          <div class="field">
+            <label for="birthdate">생년월일 <span class="required">*</span></label>
+            <input id="birthdate" name="birthdate" type="text" inputmode="numeric" value="{{ form.get('birthdate','') }}" placeholder="예: 1957-04-12" required>
+          </div>
+
+          <div class="field">
+            <label for="birthtime">출생시간</label>
+            <input id="birthtime" name="birthtime" type="time" value="{{ form.get('birthtime','') }}">
+            <div class="help">모르면 비워두셔도 됩니다. 정밀 대운 계산은 제한됩니다.</div>
+          </div>
+
+          <div class="field full">
+            <label for="birthplace">출생지역</label>
+            <input id="birthplace" name="birthplace" type="text" value="{{ form.get('birthplace','') }}" placeholder="예: 전북 임실">
+            <div class="help">현재 버전은 출생지역을 기록용으로 사용하며 별도 진태양시 보정은 하지 않습니다.</div>
+          </div>
+
+          <div class="field full">
+            <label for="question">궁금한 내용</label>
+            <textarea id="question" name="question" placeholder="예: 올해 재물운과 건강운, 앞으로의 사업 흐름이 궁금합니다.">{{ form.get('question','') }}</textarea>
+          </div>
+        </div>
+
+        <label class="consent">
+          <input type="checkbox" required>
+          <span>사주 계산과 AI 상담 제공을 위해 입력한 생년월일·출생시간·출생지역 등의 정보가 처리되는 것에 동의합니다. 상담 결과는 전통 명리학에 기반한 참고용 해석입니다.</span>
+        </label>
+
+        <button class="submit" type="submit">내 사주 상담 보기</button>
+      </form>
+    </section>
+
+    {% if error %}
+    <section class="error" id="result">
+      <strong>오류 안내</strong><br>
+      {{ error }}
+    </section>
+    {% endif %}
+
+    {% if manse %}
+    <section class="card" id="result">
+      <div class="result-head">
+        <div class="eyebrow">MANSE CALCULATION</div>
+        <h2>만세력 계산 결과</h2>
+        <p>입력값을 변환·계산한 뒤 AI 상담에 그대로 사용한 기초 자료입니다.</p>
+      </div>
+
+      <div class="manse-grid">
+        <div class="manse-item">
+          <div class="k">양력 환산</div>
+          <div class="v">{{ manse.solar_text }}</div>
+        </div>
+        <div class="manse-item">
+          <div class="k">음력</div>
+          <div class="v">{{ manse.lunar_text }}</div>
+        </div>
+        <div class="manse-item wide">
+          <div class="k">표면 오행 분포</div>
+          <div class="v">{{ manse.element_text }}</div>
+        </div>
+        <div class="manse-item wide">
+          <div class="k">천간 기준 십신</div>
+          <div class="v">{{ manse.shishen_text }}</div>
+        </div>
+      </div>
+
+      <div class="pillars">
+        <div class="k">사주팔자</div>
+        <div class="v">{{ manse.pillars_text }}</div>
+      </div>
+
+      <div class="subsection">
+        <h3>오행 구성</h3>
+        <div class="flow">{{ manse.wuxing_text }}</div>
+      </div>
+
+      <div class="subsection">
+        <h3>대운 시작</h3>
+        <div class="flow">{{ manse.luck_start_text }}</div>
+      </div>
+
+      <div class="subsection">
+        <h3>현재 대운과 세운</h3>
+        <div class="flow">현재 대운: {{ manse.current_daeyun }}<br>{{ manse.current_year }}년 세운: {{ manse.current_year_ganzhi }}</div>
+      </div>
+
+      <div class="subsection">
+        <h3>대운 흐름</h3>
+        <div class="flow">{{ manse.daeyun_text }}</div>
+      </div>
+    </section>
+    {% endif %}
+
+    {% if result %}
+      {% set ai_result = result.split('AI 사주 상담', 1)[-1] %}
+    <section class="ai-card">
+      <span class="ai-badge">✦ AI 해석</span>
+      <div class="result-head" style="margin-top:14px">
+        <h2>AI 사주 상담</h2>
+        <p>위 만세력 계산값을 변경하지 않고 해석에만 사용했습니다.</p>
+      </div>
+      <div class="ai-text">{{ ai_result }}</div>
+
+      <div class="notice">
+        사주 해석은 전통 명리학을 바탕으로 한 참고용 상담입니다. 질병의 진단·치료, 법률 판단, 투자·재무 판단을 대신하지 않습니다. 중요한 의사결정은 해당 분야의 전문가와 함께 확인해 주세요.
+      </div>
+    </section>
+    {% endif %}
+
+    <footer class="footer">
+      <strong>AI 사주카페</strong><br>
+      입력 정보는 상담 계산과 결과 생성에 필요한 범위에서 처리하도록 설계되어 있습니다.<br>
+      상업 서비스 운영 전에는 별도의 이용약관·개인정보처리방침·결제 및 환불정책을 게시하는 것을 권장합니다.
+    </footer>
+  </main>
 </body>
 </html>
