@@ -101,7 +101,11 @@ def index():
                     "OPENAI_API_KEY가 Render 환경변수에 설정되어 있지 않습니다."
                 )
 
-            client = OpenAI(api_key=api_key)
+            client = OpenAI(
+    api_key=api_key,
+    timeout=20.0,
+    max_retries=0,
+)
 
             response = client.responses.create(
                 model=os.environ.get("OPENAI_MODEL", "gpt-5.6-luna"),
