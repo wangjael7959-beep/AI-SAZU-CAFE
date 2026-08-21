@@ -1,4 +1,4 @@
-import os
+ㄹimport os
 
 from flask import Flask, render_template, request
 from openai import OpenAI
@@ -102,20 +102,23 @@ def index():
                 )
 
             client = OpenAI(
-    api_key=api_key,
-    timeout=20.0,
-    max_retries=0,
-)
+                api_key=api_key,
+                timeout=90.0,
+                max_retries=0,
+            )
 
             response = client.responses.create(
                 model=os.environ.get("OPENAI_MODEL", "gpt-5.6-luna"),
                 input=prompt,
+                reasoning={"effort": "low"},
+                max_output_tokens=1200,
             )
 
             result = response.output_text
 
         except Exception as e:
             error = f"AI 상담 중 오류가 발생했습니다: {e}"
+            
 
     return render_template(
         "index.html",
