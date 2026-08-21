@@ -269,7 +269,35 @@
         <button type="submit">사주 보기</button>
 
       </form>
+{% if error %}
+<div style="
+  margin-top:20px;
+  padding:16px;
+  border-radius:10px;
+  background:#fff0f0;
+  color:#b42318;
+  line-height:1.7;
+  white-space:pre-wrap;
+">
+  <strong>오류 안내</strong><br>
+  {{ error }}
+</div>
+{% endif %}
 
+{% if result %}
+<div style="
+  margin-top:24px;
+  padding:20px;
+  border-radius:12px;
+  background:#f7f4ff;
+  color:#222;
+  line-height:1.9;
+  white-space:pre-wrap;
+">
+  <h2 style="margin-top:0;">🔮 AI 사주 상담 결과</h2>
+  {{ result }}
+</div>
+{% endif %}
       <div class="notice">
         ※ 본 서비스의 해석은 참고용 상담 정보입니다.
         중요한 의료·법률·재정적 결정의 유일한 근거로 사용하지 마세요.
