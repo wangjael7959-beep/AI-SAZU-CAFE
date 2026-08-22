@@ -12,6 +12,9 @@ app = Flask(__name__)
 @app.route("/privacy")
 def privacy():
     return render_template("privacy.html")
+@app.route("/terms")
+def terms():
+    return render_template("terms.html")
 SEOUL_TZ = ZoneInfo("Asia/Seoul")
 ELEMENT_KO = {"木": "목", "火": "화", "土": "토", "金": "금", "水": "수"}
 
