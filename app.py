@@ -9,7 +9,9 @@ from korean_lunar_calendar import KoreanLunarCalendar
 from lunar_python import Solar
 
 app = Flask(__name__)
-
+@app.route("/privacy")
+def privacy():
+    return render_template("privacy.html")
 SEOUL_TZ = ZoneInfo("Asia/Seoul")
 ELEMENT_KO = {"木": "목", "火": "화", "土": "토", "金": "금", "水": "수"}
 
