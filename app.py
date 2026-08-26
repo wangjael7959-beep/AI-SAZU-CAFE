@@ -319,7 +319,7 @@ def index():
             chart_text = make_chart_text(manse, name, gender, birthtime, birthplace)
             question_text = question or "전체적인 사주와 앞으로의 삶의 흐름을 알려주세요."
 
-                  prompt = f"""다음은 프로그램이 만세력 계산을 통해 산출한 사주 자료입니다.
+            prompt = f"""다음은 프로그램이 만세력 계산을 통해 산출한 사주 자료입니다.
 아래 계산값은 확정된 기초 데이터이므로 간지, 사주팔자, 오행, 십신, 대운, 세운을 임의로 변경하거나 다시 계산하지 마세요.
 당신은 이 자료를 바탕으로 전통 명리학의 원리를 이해하기 쉽게 풀어주는 한국어 사주 상담가입니다.
 
