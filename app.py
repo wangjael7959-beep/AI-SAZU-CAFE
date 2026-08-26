@@ -291,6 +291,7 @@ def index():
             birthdate = form.get("birthdate", "").strip()
             birthtime = form.get("birthtime", "").strip()
             birthplace = ""
+            consultation_type = form.get("consultation_type", "personal").strip()
             question = form.get("question", "").strip()
             partner_name = form.get("partner_name", "").strip()
             partner_gender = form.get("partner_gender", "").strip()
@@ -320,16 +321,60 @@ def index():
                 gender,
                 birthplace,
                 )
+        partner_chart_text = ""
 
+        if consultation_type == "compatibility":
+            if not partner_name:
+                raise ValueError("궁합 상담을 위해 상대방 이름을 입력해 주세요.")
+            if partner_gender not in ("남성", "여성"):
+                raise ValueError("상대방 성별을 선택해 주세요.")
+            if partner_calendar_type not in ("양력", "음력"):
+                raise ValueError("상대방의 양력 또는 음력을 선택해 주세요.")
+            if partner_leap_month not in ("평달", "윤달"):
+                raise ValueError("상대방의 평달 또는 윤달을 선택해 주세요.")
+            if not partner_birthdate:
+                raise ValueError("상대방 생년월일을 입력해 주세요.")
+
+            p_year, p_month, p_day = parse_date(partner_birthdate)
+
+            partner_manse = build_manse(
+                p_year,
+                p_month,
+                p_day,
+                partner_calendar_type,
+                partner_leap_month,
+                partner_birthtime,
+                partner_gender,
+                "",
+            )
+
+            partner_chart_text = make_chart_text(
+                partner_manse,
+                partner_name,
+                partner_gender,
+                partner_birthtime,
+                "",
+            )
             chart_text = make_chart_text(manse, name, gender, birthtime, birthplace)
             question_text = question or "전체적인 사주와 앞으로의 삶의 흐름을 알려주세요."
+        compatibility_text = ""
+        if consultation_type == "compatibility":
+            compatibility_text = f"""
+다음은 궁합 상담 상대방의 만세력 자료입니다.
 
+{partner_chart_text}
+
+이번 상담은 개인 사주 상담이 아니라 두 사람의 궁합 상담입니다.
+두 사람의 일간, 오행, 십신, 사주 구조와 대운 흐름을 서로 비교하여
+성격의 조화, 서로 보완되는 점, 갈등이 생기기 쉬운 부분,
+관계 유지에 도움이 되는 소통 방법을 중심으로 설명하세요.
+"""
             prompt = f"""다음은 프로그램이 만세력 계산을 통해 산출한 사주 자료입니다.
 아래 계산값은 확정된 기초 데이터이므로 간지, 사주팔자, 오행, 십신, 대운, 세운을 임의로 변경하거나 다시 계산하지 마세요.
 당신은 이 자료를 바탕으로 전통 명리학의 원리를 이해하기 쉽게 풀어주는 한국어 사주 상담가입니다.
 
 {chart_text}
-
+{compatibility_text}
 상담 질문: {question_text}
 
 상담 원칙:
