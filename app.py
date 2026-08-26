@@ -321,40 +321,40 @@ def index():
                 gender,
                 birthplace,
                 )
-        partner_chart_text = ""
+            partner_chart_text = ""
 
-        if consultation_type == "compatibility":
-            if not partner_name:
-                raise ValueError("궁합 상담을 위해 상대방 이름을 입력해 주세요.")
-            if partner_gender not in ("남성", "여성"):
-                raise ValueError("상대방 성별을 선택해 주세요.")
-            if partner_calendar_type not in ("양력", "음력"):
-                raise ValueError("상대방의 양력 또는 음력을 선택해 주세요.")
-            if partner_leap_month not in ("평달", "윤달"):
-                raise ValueError("상대방의 평달 또는 윤달을 선택해 주세요.")
-            if not partner_birthdate:
-                raise ValueError("상대방 생년월일을 입력해 주세요.")
-
-            p_year, p_month, p_day = parse_date(partner_birthdate)
-
-            partner_manse = build_manse(
-                p_year,
-                p_month,
-                p_day,
-                partner_calendar_type,
-                partner_leap_month,
-                partner_birthtime,
-                partner_gender,
-                "",
-            )
-
-            partner_chart_text = make_chart_text(
-                partner_manse,
-                partner_name,
-                partner_gender,
-                partner_birthtime,
-                "",
-            )
+            if consultation_type == "compatibility":
+                if not partner_name:
+                    raise ValueError("궁합 상담을 위해 상대방 이름을 입력해 주세요.")
+                if partner_gender not in ("남성", "여성"):
+                    raise ValueError("상대방 성별을 선택해 주세요.")
+                if partner_calendar_type not in ("양력", "음력"):
+                    raise ValueError("상대방의 양력 또는 음력을 선택해 주세요.")
+                if partner_leap_month not in ("평달", "윤달"):
+                    raise ValueError("상대방의 평달 또는 윤달을 선택해 주세요.")
+                if not partner_birthdate:
+                    raise ValueError("상대방 생년월일을 입력해 주세요.")
+    
+                p_year, p_month, p_day = parse_date(partner_birthdate)
+    
+                partner_manse = build_manse(
+                    p_year,
+                    p_month,
+                    p_day,
+                    partner_calendar_type,
+                    partner_leap_month,
+                    partner_birthtime,
+                    partner_gender,
+                    "",
+                )
+    
+                partner_chart_text = make_chart_text(
+                    partner_manse,
+                    partner_name,
+                    partner_gender,
+                    partner_birthtime,
+                    "",
+                )
             chart_text = make_chart_text(manse, name, gender, birthtime, birthplace)
             question_text = question or "전체적인 사주와 앞으로의 삶의 흐름을 알려주세요."
         compatibility_text = ""
