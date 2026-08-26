@@ -425,7 +425,7 @@ def index():
                 model=os.environ.get("OPENAI_MODEL", "gpt-5.6-luna"),
                 input=prompt,
                 reasoning={"effort": "low"},
-                max_output_tokens=2200,
+                max_output_tokens=5000,
                 store=False,
             )
 
