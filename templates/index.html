@@ -504,15 +504,31 @@ document.addEventListener("DOMContentLoaded", function () {
     const partnerFields = document.getElementById("partnerFields");
     const typeButtons = document.querySelectorAll('input[name="consultation_type"]');
 
-    function updatePartnerFields() {
-        const selected = document.querySelector('input[name="consultation_type"]:checked');
+   function updatePartnerFields() {
+    const selected = document.querySelector('input[name="consultation_type"]:checked');
 
-        if (selected && selected.value === "compatibility") {
-            partnerFields.style.display = "contents";
+    typeButtons.forEach(function (button) {
+        const label = button.closest("label");
+
+        if (button.checked) {
+            label.style.background = "#5b2d8b";
+            label.style.color = "#ffffff";
+            label.style.borderColor = "#5b2d8b";
+            label.style.boxShadow = "0 4px 10px rgba(67,32,102,.25)";
         } else {
-            partnerFields.style.display = "none";
+            label.style.background = "#ffffff";
+            label.style.color = "#241d2c";
+            label.style.borderColor = "#e8e0ee";
+            label.style.boxShadow = "none";
         }
+    });
+
+    if (selected && selected.value === "compatibility") {
+        partnerFields.style.display = "contents";
+    } else {
+        partnerFields.style.display = "none";
     }
+}
 
     typeButtons.forEach(function (button) {
         button.addEventListener("change", updatePartnerFields);
