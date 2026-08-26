@@ -87,8 +87,8 @@ def parse_date(value):
             )
         year, month, day = map(int, parts)
 
-    if not (1800 <= year <= 2100):
-        raise ValueError("출생연도를 1800~2100년 범위로 입력해 주세요.")
+    if not (1800 <= year <= 2050):
+        raise ValueError("출생연도를 1800~2050년 범위로 입력해 주세요.")
     if not (1 <= month <= 12):
         raise ValueError("출생 월을 1~12 사이로 입력해 주세요.")
     if not (1 <= day <= 31):
