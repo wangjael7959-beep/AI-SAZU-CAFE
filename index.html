@@ -226,6 +226,26 @@
       </div>
 
       <form method="post" action="#result">
+        <div class="field full">
+    <label>상담 유형 <span class="required">*</span></label>
+    <div class="choice">
+        <label>
+            <input type="radio"
+                   name="consultation_type"
+                   value="personal"
+                   {% if form.get('consultation_type', 'personal') == 'personal' %}checked{% endif %}>
+            개인 사주 상담
+        </label>
+
+        <label>
+            <input type="radio"
+                   name="consultation_type"
+                   value="compatibility"
+                   {% if form.get('consultation_type') == 'compatibility' %}checked{% endif %}>
+            궁합 상담
+        </label>
+    </div>
+</div>
         <div class="grid">
           <div class="field">
             <label for="name">이름 <span class="required">*</span></label>
@@ -274,11 +294,8 @@
             <div class="help">모르면 비워두셔도 됩니다. 정밀 대운 계산은 제한됩니다.</div>
           </div>
 
-          <div class="field full">
-            <label for="birthplace">출생지역</label>
-            <input id="birthplace" name="birthplace" type="text" value="{{ form.get('birthplace','') }}" placeholder="예: 전북 임실">
-            <div class="help">현재 버전은 출생지역을 기록용으로 사용하며 별도 진태양시 보정은 하지 않습니다.</div>
-          </div>
+         
+          <div id="partnerFields" style="display: {{ 'contents' if form.get('consultation_type') == 'compatibility' else 'none' }};">
 <div class="field full">
     <label>궁합 상담 상대방 정보</label>
     <div class="help">궁합을 보고 싶은 경우에만 입력하세요. 일반 사주 상담이면 비워두셔도 됩니다.</div>
@@ -329,7 +346,7 @@
     <input id="partner_birthtime" name="partner_birthtime" type="time"
            value="{{ form.get('partner_birthtime', '') }}">
 </div>
-
+</div>            
           <div class="field full">
             <label for="question">궁금한 내용</label>
             <textarea id="question" name="question" placeholder="예: 올해 재물운과 건강운, 앞으로의 사업 흐름이 궁금합니다.">{{ form.get('question','') }}</textarea>
@@ -429,5 +446,28 @@
    <p><a href="/terms" style="color:#6f2da8; font-weight:700;">이용약관</a> &nbsp;|&nbsp; <a href="/privacy" style="color:#6f2da8; font-weight:700;">개인정보처리방침</a></p>
     </footer>
   </main>
-</body>
+    
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const partnerFields = document.getElementById("partnerFields");
+    const typeButtons = document.querySelectorAll('input[name="consultation_type"]');
+
+    function updatePartnerFields() {
+        const selected = document.querySelector('input[name="consultation_type"]:checked');
+
+        if (selected && selected.value === "compatibility") {
+            partnerFields.style.display = "contents";
+        } else {
+            partnerFields.style.display = "none";
+        }
+    }
+
+    typeButtons.forEach(function (button) {
+        button.addEventListener("change", updatePartnerFields);
+    });
+
+    updatePartnerFields();
+});
+</script>
+</body>  
 </html>
