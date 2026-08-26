@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
+  <meta charset
+    ="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#4b2a7b">
   <title>운담(運談) | 만세력 기반 사주상담</title>
@@ -113,7 +114,17 @@
       margin:0;cursor:pointer;padding:11px 15px;border:1px solid var(--line);border-radius:13px;
       background:#fff;font-weight:700;font-size:14px;transition:.18s
     }
-    .choice input:checked + label{border-color:var(--primary);background:var(--primary-soft);color:var(--primary)}
+    .cho.choice label:has(input:checked){
+    background:var(--primary);
+    color:#fff;
+    border-color:var(--primary);
+    box-shadow:0 4px 10px rgba(67,32,102,.25);
+    transform:translateY(1px);
+}
+
+.choice label:active{
+    transform:scale(.97);
+
     .help{font-size:12px;color:var(--muted);margin-top:6px}
     .consent{
       display:flex;gap:10px;align-items:flex-start;margin-top:17px;padding:13px 14px;
@@ -295,11 +306,6 @@
             <div class="help">모르면 비워두셔도 됩니다. 정밀 대운 계산은 제한됩니다.</div>
           </div>
 
-          <div class="field full">
-            <label for="birthplace">출생지역</label>
-            <input id="birthplace" name="birthplace" type="text" value="{{ form.get('birthplace','') }}" placeholder="예: 전북 임실">
-            <div class="help">현재 버전은 출생지역을 기록용으로 사용하며 별도 진태양시 보정은 하지 않습니다.</div>
-          </div>
 <div id="partnerFields" style="display: none;">
     <div class="field full">
         <label>궁합 상담 상대방 정보</label>
@@ -442,9 +448,7 @@
     </section>
     {% endif %}
 <section style="margin:24px 0; padding:20px; border:1px solid #ddd; border-radius:14px; line-height:1.8;">
-  <h2 style="margin-top:0;">운담 사주 종합상담</h2>
-  <p>생년월일, 성별, 출생시간 등의 정보를 바탕으로 삶의 흐름과 운세를 이해하기 쉽게 풀어드리는 온라인 사주 상담 서비스입니다.</p>
-
+ 
   <div style="margin-top:16px; padding:18px; background:#f7f5ff; border-radius:12px;">
     <strong style="font-size:20px;"> 사주 종합상담 1회</strong>
     <p>성격·인간관계·재물운·직업운·생활 방향 및 궁금한 질문을 종합적으로 상담합니다.</p>
