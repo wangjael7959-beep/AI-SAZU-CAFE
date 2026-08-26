@@ -367,7 +367,7 @@ def index():
 
             client = OpenAI(
                 api_key=api_key,
-                timeout=20.0,
+                timeout=90.0,
                 max_retries=0,
             )
 
