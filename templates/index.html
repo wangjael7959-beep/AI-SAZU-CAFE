@@ -507,6 +507,18 @@
  <script>
 document.addEventListener("DOMContentLoaded", function () {
     const partnerFields = document.getElementById("partnerFields");
+ const submitButton = document.querySelector("button.submit");
+  if (submitButton) {
+    submitButton.style.display = "block";
+    submitButton.style.width = "100%";
+    submitButton.style.padding = "16px 20px";
+    submitButton.style.background = "#5b2d8b";
+    submitButton.style.color = "#ffffff";
+    submitButton.style.border = "0";
+    submitButton.style.borderRadius = "14px";
+    submitButton.style.fontSize = "18px";
+    submitButton.style.fontWeight = "800";
+}
     const typeButtons = document.querySelectorAll('input[name="consultation_type"]');
 
    function updatePartnerFields() {
