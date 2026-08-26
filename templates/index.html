@@ -227,6 +227,26 @@
       </div>
 
       <form method="post" action="#result">
+        <div class="field full">
+    <label>상담 유형 <span class="required">*</span></label>
+    <div class="choice">
+        <label>
+            <input type="radio"
+                   name="consultation_type"
+                   value="personal"
+                   {% if form.get('consultation_type', 'personal') == 'personal' %}checked{% endif %}>
+            개인 사주 상담
+        </label>
+
+        <label>
+            <input type="radio"
+                   name="consultation_type"
+                   value="compatibility"
+                   {% if form.get('consultation_type') == 'compatibility' %}checked{% endif %}>
+            궁합 상담
+        </label>
+    </div>
+</div>
         <div class="grid">
           <div class="field">
             <label for="name">이름 <span class="required">*</span></label>
@@ -280,7 +300,56 @@
             <input id="birthplace" name="birthplace" type="text" value="{{ form.get('birthplace','') }}" placeholder="예: 전북 임실">
             <div class="help">현재 버전은 출생지역을 기록용으로 사용하며 별도 진태양시 보정은 하지 않습니다.</div>
           </div>
+<div id="partnerFields" style="display: none;">
+    <div class="field full">
+        <label>궁합 상담 상대방 정보</label>
+        <div class="help">궁합을 보고 싶은 경우에만 입력하세요.</div>
+    </div>
 
+    <div class="field">
+        <label for="partner_name">상대방 이름</label>
+        <input id="partner_name" name="partner_name" type="text"
+               value="{{ form.get('partner_name', '') }}"
+               placeholder="예: 홍길순">
+    </div>
+
+    <div class="field">
+        <label for="partner_gender">상대방 성별</label>
+        <select id="partner_gender" name="partner_gender">
+            <option value="">선택 안 함</option>
+            <option value="남성">남성</option>
+            <option value="여성">여성</option>
+        </select>
+    </div>
+<div class="field">
+    <label for="partner_calendar_type">상대방 달력 구분</label>
+    <select id="partner_calendar_type" name="partner_calendar_type">
+        <option value="">선택</option>
+        <option value="양력" {% if form.get('partner_calendar_type') == '양력' %}selected{% endif %}>양력</option>
+        <option value="음력" {% if form.get('partner_calendar_type') == '음력' %}selected{% endif %}>음력</option>
+    </select>
+</div>
+
+<div class="field">
+    <label for="partner_leap_month">상대방 윤달 여부</label>
+    <select id="partner_leap_month" name="partner_leap_month">
+        <option value="평달" {% if form.get('partner_leap_month', '평달') == '평달' %}selected{% endif %}>평달</option>
+        <option value="윤달" {% if form.get('partner_leap_month') == '윤달' %}selected{% endif %}>윤달</option>
+    </select>
+</div>
+    <div class="field">
+        <label for="partner_birthdate">상대방 생년월일</label>
+        <input id="partner_birthdate" name="partner_birthdate" type="text"
+               value="{{ form.get('partner_birthdate', '') }}"
+               placeholder="예: 1959-08-18">
+    </div>
+
+    <div class="field">
+        <label for="partner_birthtime">상대방 출생시간</label>
+        <input id="partner_birthtime" name="partner_birthtime" type="time"
+               value="{{ form.get('partner_birthtime', '') }}">
+    </div>
+</div>
           <div class="field full">
             <label for="question">궁금한 내용</label>
             <textarea id="question" name="question" placeholder="예: 올해 재물운과 건강운, 앞으로의 사업 흐름이 궁금합니다.">{{ form.get('question','') }}</textarea>
@@ -426,5 +495,27 @@
     );
   });
 </script>
+ <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const partnerFields = document.getElementById("partnerFields");
+    const typeButtons = document.querySelectorAll('input[name="consultation_type"]');
+
+    function updatePartnerFields() {
+        const selected = document.querySelector('input[name="consultation_type"]:checked');
+
+        if (selected && selected.value === "compatibility") {
+            partnerFields.style.display = "contents";
+        } else {
+            partnerFields.style.display = "none";
+        }
+    }
+
+    typeButtons.forEach(function (button) {
+        button.addEventListener("change", updatePartnerFields);
+    });
+
+    updatePartnerFields();
+});
+</script> 
 </body>
 </html>
