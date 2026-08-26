@@ -151,7 +151,7 @@ def convert_to_solar(year, month, day, calendar_type, leap_month):
     return solar_year, solar_month, solar_day, solar_text, lunar_text
 
 
-def build_manse(year, month, day, calendar_type, leap_month, birthtime, gender):
+def build_manse(year, month, day, calendar_type, leap_month, birthtime, gender, birthplace):
     solar_year, solar_month, solar_day, solar_text, lunar_text = convert_to_solar(
         year, month, day, calendar_type, leap_month
     )
@@ -313,7 +313,8 @@ def index():
                 leap_month,
                 birthtime,
                 gender,
-            )
+                birthplace,
+                )
 
             chart_text = make_chart_text(manse, name, gender, birthtime, birthplace)
             question_text = question or "전체적인 사주와 앞으로의 삶의 흐름을 알려주세요."
