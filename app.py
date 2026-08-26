@@ -290,9 +290,14 @@ def index():
             leap_month = form.get("leap_month", "평달").strip()
             birthdate = form.get("birthdate", "").strip()
             birthtime = form.get("birthtime", "").strip()
-            birthplace = form.get("birthplace", "").strip()
+            birthplace = ""
             question = form.get("question", "").strip()
-
+            partner_name = form.get("partner_name", "").strip()
+            partner_gender = form.get("partner_gender", "").strip()
+            partner_calendar_type = form.get("partner_calendar_type", "").strip()
+            partner_leap_month = form.get("partner_leap_month", "평달").strip()
+            partner_birthdate = form.get("partner_birthdate", "").strip()
+            partner_birthtime = form.get("partner_birthtime", "").strip()
             if not name:
                 raise ValueError("이름을 입력해 주세요.")
             if gender not in ("남성", "여성"):
