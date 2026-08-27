@@ -410,10 +410,31 @@
         </div>
       </div>
 
-      <div class="pillars">
-        <div class="k">사주팔자</div>
-        <div class="v">{{ manse.pillars_text }}</div>
-      </div>
+      <div class="pillars" style="margin:20px 0;">
+  <div class="k" style="margin-bottom:12px;font-weight:800;">사주팔자</div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+    <div style="padding:16px 10px;text-align:center;border:1px solid #e8e0ee;border-radius:14px;background:#faf8fc;">
+      <div style="font-size:13px;color:#746c7e;margin-bottom:8px;">년주</div>
+      <div style="font-size:22px;font-weight:800;color:#432066;">{{ manse.year_pillar }}</div>
+    </div>
+
+    <div style="padding:16px 10px;text-align:center;border:1px solid #e8e0ee;border-radius:14px;background:#faf8fc;">
+      <div style="font-size:13px;color:#746c7e;margin-bottom:8px;">월주</div>
+      <div style="font-size:22px;font-weight:800;color:#432066;">{{ manse.month_pillar }}</div>
+    </div>
+
+    <div style="padding:16px 10px;text-align:center;border:2px solid #5b2d8b;border-radius:14px;background:#f6f0fb;">
+      <div style="font-size:13px;color:#5b2d8b;margin-bottom:8px;">일주 · 본인</div>
+      <div style="font-size:22px;font-weight:900;color:#432066;">{{ manse.day_pillar }}</div>
+    </div>
+
+    <div style="padding:16px 10px;text-align:center;border:1px solid #e8e0ee;border-radius:14px;background:#faf8fc;">
+      <div style="font-size:13px;color:#746c7e;margin-bottom:8px;">시주</div>
+      <div style="font-size:22px;font-weight:800;color:#432066;">{{ manse.time_pillar }}</div>
+    </div>
+  </div>
+</div>
 
       <div class="subsection">
         <h3>오행 구성</h3>
