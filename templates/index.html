@@ -445,8 +445,21 @@
         <h2>운담 사주상담</h2>
         <p>위 만세력 계산값을 바탕으로 삶의 흐름을 해석했습니다.</p>
       </div>
-      <div class="ai-text">{{ ai_result }}</div>
-
+     <div class="ai-sections">
+  {% for part in ai_result.split('## ') %}
+    {% if part.strip() %}
+      {% set lines = part.strip().split('\n') %}
+      <div style="margin:16px 0;padding:20px;border:1px solid #e8e0ee;border-radius:16px;background:#fff;box-shadow:0 4px 14px rgba(67,32,102,.08);">
+        <h3 style="margin:0 0 12px;font-size:20px;color:#5b2d8b;">
+          {{ lines[0] | replace('**','') }}
+        </h3>
+        <div style="white-space:pre-line;line-height:1.9;font-size:15px;color:#342b3a;">
+          {{ lines[1:] | join('\n') | replace('**','') }}
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
       <div class="notice">
         사주 해석은 전통 명리학을 바탕으로 한 참고용 상담입니다. 질병의 진단·치료, 법률 판단, 투자·재무 판단을 대신하지 않습니다. 중요한 의사결정은 해당 분야의 전문가와 함께 확인해 주세요.
       </div>
