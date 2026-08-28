@@ -3,12 +3,16 @@ import re
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify, session
 from openai import OpenAI
 from korean_lunar_calendar import KoreanLunarCalendar
 from lunar_python import Solar
-
+import os
+import json
+import urllib.request
+import urllib.parse
 app = Flask(__name__)
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "undam-secret-change-me")
 @app.route("/privacy")
 def privacy():
     return render_template("privacy.html")
@@ -283,7 +287,90 @@ def make_chart_text(manse, name, gender, birthtime, birthplace):
 현재 대운: {manse['current_daeyun']}
 {manse['current_year']}년 세운 간지: {manse['current_year_ganzhi']}"""
 
+@app.route("/verify-payment", methods=["POST"])
+def verify_payment():
+    try:
+        data = request.get_json(silent=True) or {}
 
+        imp_uid = data.get("imp_uid", "")
+        merchant_uid = data.get("merchant_uid", "")
+
+        if not imp_uid or not merchant_uid:
+            return jsonify({"ok": False, "message": "결제정보가 없습니다."}), 400
+
+        api_key = os.environ.get("PORTONE_API_KEY")
+        api_secret = os.environ.get("PORTONE_API_SECRET")
+
+        if not api_key or not api_secret:
+            return jsonify({
+                "ok": False,
+                "message": "결제 서버 설정이 완료되지 않았습니다."
+            }), 500
+
+        token_body = json.dumps({
+            "imp_key": api_key,
+            "imp_secret": api_secret
+        }).encode("utf-8")
+
+        token_request = urllib.request.Request(
+            "https://api.iamport.kr/users/getToken",
+            data=token_body,
+            headers={"Content-Type": "application/json"},
+            method="POST"
+        )
+
+        with urllib.request.urlopen(token_request, timeout=15) as response:
+            token_result = json.loads(response.read().decode("utf-8"))
+
+        access_token = token_result["response"]["access_token"]
+
+        payment_url = (
+            "https://api.iamport.kr/payments/"
+            + urllib.parse.quote(imp_uid)
+        )
+
+        payment_request = urllib.request.Request(
+            payment_url,
+            headers={"Authorization": access_token},
+            method="GET"
+        )
+
+        with urllib.request.urlopen(payment_request, timeout=15) as response:
+            payment_result = json.loads(response.read().decode("utf-8"))
+
+        payment = payment_result.get("response") or {}
+
+        if payment.get("status") != "paid":
+            return jsonify({
+                "ok": False,
+                "message": "결제가 완료된 상태가 아닙니다."
+            }), 400
+
+        if int(payment.get("amount", 0)) != 9900:
+            return jsonify({
+                "ok": False,
+                "message": "결제금액이 일치하지 않습니다."
+            }), 400
+
+        if payment.get("merchant_uid") != merchant_uid:
+            return jsonify({
+                "ok": False,
+                "message": "주문번호가 일치하지 않습니다."
+            }), 400
+
+        session["payment_verified"] = True
+
+        return jsonify({
+            "ok": True,
+            "message": "결제가 확인되었습니다."
+        })
+
+    except Exception as e:
+        print("PAYMENT VERIFY ERROR:", e)
+        return jsonify({
+            "ok": False,
+            "message": "결제 확인 중 오류가 발생했습니다."
+        }), 500
 @app.route("/", methods=["GET", "POST"])
 def index():
     result = None
@@ -292,6 +379,14 @@ def index():
     form = request.form.to_dict() if request.method == "POST" else {}
 
     if request.method == "POST":
+                if not session.pop("payment_verified", False):
+            return render_template(
+                "index.html",
+                result=None,
+                error="먼저 9,900원 결제를 완료해 주세요.",
+                manse=None,
+                form=form
+            )
         try:
             name = form.get("name", "").strip()
             gender = form.get("gender", "").strip()
