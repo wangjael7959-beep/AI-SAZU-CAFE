@@ -239,7 +239,35 @@
   gap:8px !important;
   flex-wrap:nowrap !important;
 }
+.consultation-row{
+  display:flex !important;
+  align-items:center !important;
+  gap:12px !important;
+  flex-wrap:nowrap !important;
+}
 
+.consultation-label{
+  margin:0 !important;
+  min-width:72px !important;
+  white-space:nowrap !important;
+}
+
+.consultation-choice{
+  display:flex !important;
+  align-items:center !important;
+  gap:8px !important;
+  flex-wrap:nowrap !important;
+}
+
+@media (max-width:700px){
+  .consultation-row{
+    flex-wrap:wrap !important;
+  }
+
+  .consultation-label{
+    width:100% !important;
+  }
+}
 
 /* 이름 / 생년월일 / 출생시간 줄 간격 */
 .field.full:has(#name),
