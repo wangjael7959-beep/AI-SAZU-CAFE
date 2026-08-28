@@ -474,10 +474,27 @@
         <div class="flow">{{ manse.luck_start_text }}</div>
       </div>
 
-      <div class="subsection">
-        <h3>현재 대운과 세운</h3>
-        <div class="flow">현재 대운: {{ manse.current_daeyun }}<br>{{ manse.current_year }}년 세운: {{ manse.current_year_ganzhi }}</div>
+     <div class="subsection">
+  <h3>현재 대운과 세운</h3>
+
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px;">
+
+    <div style="padding:18px;border:1px solid #e4d9ed;border-radius:16px;background:#faf7fc;">
+      <div style="font-size:13px;color:#746c7e;margin-bottom:8px;">현재 대운</div>
+      <div style="font-size:21px;font-weight:900;color:#432066;line-height:1.5;">
+        {{ manse.current_daeyun }}
       </div>
+    </div>
+
+    <div style="padding:18px;border:2px solid #5b2d8b;border-radius:16px;background:#f6f0fb;">
+      <div style="font-size:13px;color:#5b2d8b;margin-bottom:8px;">{{ manse.current_year }}년 세운</div>
+      <div style="font-size:24px;font-weight:900;color:#432066;">
+        {{ manse.current_year_ganzhi }}
+      </div>
+    </div>
+
+  </div>
+</div>
 
       <div class="subsection">
         <h3>대운 흐름</h3>
