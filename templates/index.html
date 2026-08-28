@@ -353,7 +353,7 @@
 
       <form method="post" action="#result">
         <div class="field full">
-    <label>상담 유형 <span class="required">*</span></label>
+   <label>상담 유형</label>
     <div class="choice">
         <label>
             <input type="radio"
@@ -377,7 +377,7 @@
   <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
 
     <label for="name" style="margin:0;min-width:52px;">
-      이름 <span class="required">*</span>
+      이름 <span class="required"></span>
     </label>
 
     <input
@@ -855,8 +855,33 @@
   <div style="margin-top:16px; padding:18px; background:#f7f5ff; border-radius:12px;">
     <strong style="font-size:20px;"> 사주 종합상담 1회</strong>
     <p>성격·인간관계·재물운·직업운·생활 방향 및 궁금한 질문을 종합적으로 상담합니다.</p>
-    <p style="font-size:24px; font-weight:700; margin-bottom:0;">9,900원</p>
-    <button type="button" id="payButton">9,900원 결제하기</button>
+    <div style="display:flex;align-items:center;gap:18px;margin-top:18px;">
+  <div style="font-size:28px;font-weight:800;color:#241d2c;">
+    9,900원
+  </div>
+
+  <button
+    type="button"
+    id="payButton"
+    style="
+      border:0;
+      border-radius:13px;
+      padding:13px 26px;
+      background:linear-gradient(135deg,#5b2d8b,#432066);
+      color:#ffffff;
+      font-size:17px;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:0 6px 14px rgba(67,32,102,.28);
+      transition:.12s;
+    "
+    onmousedown="this.style.transform='translateY(3px) scale(.97)';this.style.boxShadow='inset 0 4px 7px rgba(0,0,0,.30)'"
+    onmouseup="this.style.transform='none';this.style.boxShadow='0 6px 14px rgba(67,32,102,.28)'"
+    onmouseleave="this.style.transform='none';this.style.boxShadow='0 6px 14px rgba(67,32,102,.28)'"
+  >
+    결제하기
+  </button>
+</div>
   </div>
 </section>
    <section style="margin:24px 0; padding:20px; border:1px solid #ddd; border-radius:14px; line-height:1.8;">
