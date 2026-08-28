@@ -147,6 +147,68 @@
     box-shadow:0 6px 16px rgba(67,32,102,.25);
 }
     .submit:active{transform:translateY(1px)}
+ /* ===== 선택 버튼 상태를 확실하게 표시 ===== */
+
+.choice input[type="radio"]{
+  position:absolute !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+.choice label{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-height:46px !important;
+  padding:11px 18px !important;
+
+  border:1px solid #ded8e6 !important;
+  border-radius:13px !important;
+
+  background:#ffffff !important;
+  color:#342b3a !important;
+
+  font-weight:750 !important;
+  cursor:pointer !important;
+
+  transition:
+    background .15s ease,
+    color .15s ease,
+    border-color .15s ease,
+    transform .08s ease,
+    box-shadow .15s ease !important;
+}
+
+/* 선택된 버튼 */
+.choice input[type="radio"]:checked + label{
+  background:linear-gradient(135deg,#432066,#6d3aa0) !important;
+  color:#ffffff !important;
+
+  border-color:#432066 !important;
+
+  box-shadow:
+    inset 0 3px 7px rgba(0,0,0,.24),
+    0 4px 10px rgba(67,32,102,.18) !important;
+
+  transform:translateY(2px) scale(.98) !important;
+}
+
+/* 누르는 순간 */
+.choice label:active{
+  transform:translateY(2px) scale(.97) !important;
+}
+
+/* 키보드 선택 */
+.choice input[type="radio"]:focus-visible + label{
+  outline:3px solid rgba(91,45,139,.22) !important;
+  outline-offset:2px !important;
+}
+
+/* 생년월일 옆 양력/음력은 조금 작게 */
+.calendar-choice label{
+  min-width:66px !important;
+  padding:11px 14px !important;
+}
     .error{
       margin-top:18px;padding:16px 17px;border-radius:16px;border:1px solid #f0c6c6;
       background:var(--danger-bg);color:var(--danger)
@@ -284,31 +346,56 @@
             </div>
           </div>
 
-          <div class="field">
-            <span class="label">달력 구분 <span class="required">*</span></span>
-            <div class="choice">
-              <input id="cal-solar" name="calendar_type" type="radio" value="양력" {% if form.get('calendar_type','양력') == '양력' %}checked{% endif %}>
-              <label for="cal-solar">양력</label>
-              <input id="cal-lunar" name="calendar_type" type="radio" value="음력" {% if form.get('calendar_type') == '음력' %}checked{% endif %}>
-              <label for="cal-lunar">음력</label>
-            </div>
-          </div>
+         <div class="field full">
+  <label for="birthdate">
+    생년월일 <span class="required">*</span>
+  </label>
 
-          <div class="field">
-            <span class="label">윤달 여부</span>
-            <div class="choice">
-              <input id="leap-normal" name="leap_month" type="radio" value="평달" {% if form.get('leap_month','평달') == '평달' %}checked{% endif %}>
-              <label for="leap-normal">평달</label>
-              <input id="leap-leap" name="leap_month" type="radio" value="윤달" {% if form.get('leap_month') == '윤달' %}checked{% endif %}>
-              <label for="leap-leap">윤달</label>
-            </div>
-            <div class="help">양력 선택 시 윤달 여부는 계산에 사용되지 않습니다.</div>
-          </div>
+  <div style="
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:12px;
+    align-items:center;
+  ">
 
-          <div class="field">
-            <label for="birthdate">생년월일 <span class="required">*</span></label>
-            <input id="birthdate" name="birthdate" type="text" inputmode="numeric" value="{{ form.get('birthdate','') }}" placeholder="예: 1957-04-12" required>
-          </div>
+    <input
+      id="birthdate"
+      name="birthdate"
+      type="text"
+      inputmode="numeric"
+      value="{{ form.get('birthdate','') }}"
+      placeholder="예: 1957-04-12"
+      required
+    >
+
+    <div class="choice calendar-choice" style="flex-wrap:nowrap;">
+      <input
+        id="cal-solar"
+        name="calendar_type"
+        type="radio"
+        value="양력"
+        {% if form.get('calendar_type','양력') == '양력' %}checked{% endif %}
+      >
+      <label for="cal-solar">양력</label>
+
+      <input
+        id="cal-lunar"
+        name="calendar_type"
+        type="radio"
+        value="음력"
+        {% if form.get('calendar_type') == '음력' %}checked{% endif %}
+      >
+      <label for="cal-lunar">음력</label>
+    </div>
+
+  </div>
+
+  <div class="help">
+    생년월일을 입력한 뒤 양력 또는 음력을 선택해 주세요.
+  </div>
+
+  <input type="hidden" name="leap_month" value="평달">
+</div>
 
           <div class="field">
             <label for="birthtime">출생시간</label>
@@ -337,29 +424,49 @@
             <option value="여성">여성</option>
         </select>
     </div>
-<div class="field">
-    <label for="partner_calendar_type">상대방 달력 구분</label>
-    <select id="partner_calendar_type" name="partner_calendar_type">
-        <option value="">선택</option>
-        <option value="양력" {% if form.get('partner_calendar_type') == '양력' %}selected{% endif %}>양력</option>
-        <option value="음력" {% if form.get('partner_calendar_type') == '음력' %}selected{% endif %}>음력</option>
-    </select>
-</div>
+<div class="field full">
+  <label for="partner_birthdate">상대방 생년월일</label>
 
-<div class="field">
-    <label for="partner_leap_month">상대방 윤달 여부</label>
-    <select id="partner_leap_month" name="partner_leap_month">
-        <option value="평달" {% if form.get('partner_leap_month', '평달') == '평달' %}selected{% endif %}>평달</option>
-        <option value="윤달" {% if form.get('partner_leap_month') == '윤달' %}selected{% endif %}>윤달</option>
-    </select>
-</div>
-    <div class="field">
-        <label for="partner_birthdate">상대방 생년월일</label>
-        <input id="partner_birthdate" name="partner_birthdate" type="text"
-               value="{{ form.get('partner_birthdate', '') }}"
-               placeholder="예: 1959-08-18">
+  <div style="
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:12px;
+    align-items:center;
+  ">
+
+    <input
+      id="partner_birthdate"
+      name="partner_birthdate"
+      type="text"
+      inputmode="numeric"
+      value="{{ form.get('partner_birthdate','') }}"
+      placeholder="예: 1959-08-18"
+    >
+
+    <div class="choice calendar-choice" style="flex-wrap:nowrap;">
+      <input
+        id="partner-cal-solar"
+        name="partner_calendar_type"
+        type="radio"
+        value="양력"
+        {% if form.get('partner_calendar_type','양력') == '양력' %}checked{% endif %}
+      >
+      <label for="partner-cal-solar">양력</label>
+
+      <input
+        id="partner-cal-lunar"
+        name="partner_calendar_type"
+        type="radio"
+        value="음력"
+        {% if form.get('partner_calendar_type') == '음력' %}checked{% endif %}
+      >
+      <label for="partner-cal-lunar">음력</label>
     </div>
 
+  </div>
+
+  <input type="hidden" name="partner_leap_month" value="평달">
+</div>
     <div class="field">
         <label for="partner_birthtime">상대방 출생시간</label>
         <input id="partner_birthtime" name="partner_birthtime" type="time"
