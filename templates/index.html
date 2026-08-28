@@ -455,25 +455,34 @@
       </div>
 
       <form method="post" action="#result">
-        <div class="field full">
-   <label>상담 유형</label>
-    <div class="choice">
-        <label>
-            <input type="radio"
-                   name="consultation_type"
-                   value="personal"
-                   {% if form.get('consultation_type', 'personal') == 'personal' %}checked{% endif %}>
-            개인 사주 상담
-        </label>
+      <div class="field full consultation-row">
 
-        <label>
-            <input type="radio"
-                   name="consultation_type"
-                   value="compatibility"
-                   {% if form.get('consultation_type') == 'compatibility' %}checked{% endif %}>
-            궁합 상담
-        </label>
-    </div>
+  <label class="consultation-label">상담 유형</label>
+
+  <div class="choice consultation-choice">
+
+    <label>
+      <input
+        type="radio"
+        name="consultation_type"
+        value="personal"
+        {% if form.get('consultation_type', 'personal') == 'personal' %}checked{% endif %}
+      >
+      개인 사주 상담
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="consultation_type"
+        value="compatibility"
+        {% if form.get('consultation_type') == 'compatibility' %}checked{% endif %}
+      >
+      궁합 상담
+    </label>
+
+  </div>
+
 </div>
        <div class="field full">
 
