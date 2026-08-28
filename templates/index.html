@@ -436,10 +436,38 @@
   </div>
 </div>
 
-      <div class="subsection">
-        <h3>오행 구성</h3>
-        <div class="flow">{{ manse.wuxing_text }}</div>
-      </div>
+     <div class="subsection">
+  <h3>오행 구성</h3>
+
+  <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:14px;">
+
+    <div style="padding:14px 6px;text-align:center;border:1px solid #dfe8df;border-radius:14px;background:#f7fbf7;">
+      <div style="font-size:14px;font-weight:800;">목(木)</div>
+      <div style="font-size:24px;font-weight:900;margin-top:6px;">{{ manse.wood_count }}</div>
+    </div>
+
+    <div style="padding:14px 6px;text-align:center;border:1px solid #eadfdf;border-radius:14px;background:#fff8f7;">
+      <div style="font-size:14px;font-weight:800;">화(火)</div>
+      <div style="font-size:24px;font-weight:900;margin-top:6px;">{{ manse.fire_count }}</div>
+    </div>
+
+    <div style="padding:14px 6px;text-align:center;border:1px solid #e8e2d8;border-radius:14px;background:#fbf9f4;">
+      <div style="font-size:14px;font-weight:800;">토(土)</div>
+      <div style="font-size:24px;font-weight:900;margin-top:6px;">{{ manse.earth_count }}</div>
+    </div>
+
+    <div style="padding:14px 6px;text-align:center;border:1px solid #e4e4e4;border-radius:14px;background:#fafafa;">
+      <div style="font-size:14px;font-weight:800;">금(金)</div>
+      <div style="font-size:24px;font-weight:900;margin-top:6px;">{{ manse.metal_count }}</div>
+    </div>
+
+    <div style="padding:14px 6px;text-align:center;border:1px solid #dde4ec;border-radius:14px;background:#f7f9fc;">
+      <div style="font-size:14px;font-weight:800;">수(水)</div>
+      <div style="font-size:24px;font-weight:900;margin-top:6px;">{{ manse.water_count }}</div>
+    </div>
+
+  </div>
+</div>
 
       <div class="subsection">
         <h3>대운 시작</h3>
