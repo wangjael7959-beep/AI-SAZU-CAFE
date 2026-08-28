@@ -377,11 +377,11 @@ def index():
     error = None
     manse = None
     form = request.form.to_dict() if request.method == "POST" else {}
+    
+    if request.method == "POST":
 
-   if request.method == "POST":
-
-       if not session.pop("payment_verified", False):
-           return render_template(
+        if not session.pop("payment_verified", False):
+            return render_template(
                 "index.html",
                 result=None,
                 error="먼저 9,900원 결제를 완료해 주세요.",
@@ -389,7 +389,7 @@ def index():
                 form=form
             )
 
-      try:
+        try:
             name = form.get("name", "").strip()
             gender = form.get("gender", "").strip()
             calendar_type = form.get("calendar_type", "양력").strip()
