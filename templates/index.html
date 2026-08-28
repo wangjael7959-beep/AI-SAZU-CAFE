@@ -992,30 +992,80 @@
   </main>
 <script>
   
-  IMP.init("imp08418083");
+ IMP.init("imp08418083");
 
-  document.getElementById("payButton").addEventListener("click", function () {
+const payButton = document.getElementById("payButton");
+const submitButton = document.querySelector("button.submit");
+
+if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.style.opacity = "0.55";
+    submitButton.style.cursor = "not-allowed";
+    submitButton.title = "먼저 9,900원 결제를 완료해 주세요.";
+}
+
+payButton.addEventListener("click", function () {
+
+    const merchantUid = "undam_" + Date.now();
+
     IMP.request_pay(
-      {
-        channelKey: "channel-key-f1389507-ccf7-4260-8559-8c6171c12c38",
-        pay_method: "card",
-        merchant_uid: "undam_" + Date.now(),
-        name: "운담 사주 종합상담 1회",
-        amount: 9900,
-        buyer_name: "테스트고객",
-        buyer_tel: "070-4571-5506",
-        buyer_email: "test@example.com",
-        company: "운담"
-      },
-      function (rsp) {
-        if (rsp.success) {
-          alert("테스트 결제가 정상 완료되었습니다.");
-        } else {
-          alert("결제가 완료되지 않았습니다.\n" + rsp.error_msg);
+        {
+            channelKey: "channel-key-f1389507-ccf7-4260-8559-8c6171c12c38",
+            pay_method: "card",
+            merchant_uid: merchantUid,
+            name: "운담 사주 종합상담 1회",
+            amount: 9900,
+            buyer_name: document.getElementById("name")?.value || "고객",
+            buyer_tel: "070-4571-5506",
+            buyer_email: "test@example.com",
+            company: "운담"
+        },
+        async function (rsp) {
+
+            if (!rsp.imp_uid) {
+                alert("결제가 완료되지 않았습니다.");
+                return;
+            }
+
+            try {
+                const response = await fetch("/verify-payment", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        imp_uid: rsp.imp_uid,
+                        merchant_uid: rsp.merchant_uid
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok || !result.ok) {
+                    alert(result.message || "결제 확인에 실패했습니다.");
+                    return;
+                }
+
+                alert("결제가 완료되었습니다. 이제 사주 상담을 진행할 수 있습니다.");
+
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.style.opacity = "1";
+                    submitButton.style.cursor = "pointer";
+                    submitButton.title = "";
+                    submitButton.focus();
+                }
+
+                payButton.disabled = true;
+                payButton.textContent = "결제완료";
+
+            } catch (error) {
+                console.error(error);
+                alert("결제 확인 중 오류가 발생했습니다.");
+            }
         }
-      }
     );
-  });
+});
 </script>
  <script>
 document.addEventListener("DOMContentLoaded", function () {
