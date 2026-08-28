@@ -1004,8 +1004,35 @@ if (submitButton) {
     submitButton.title = "먼저 9,900원 결제를 완료해 주세요.";
 }
 
-payButton.addEventListener("click", function () {
+payButton.addEventListener("click", async function () {
+    const response = await fetch("/verify-payment", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({})
+    });
 
+    const result = await response.json();
+
+    if (!response.ok || !result.ok) {
+        alert(result.message || "테스트 결제 확인에 실패했습니다.");
+        return;
+    }
+
+    alert("테스트 결제가 확인되었습니다.");
+
+    if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.style.opacity = "1";
+        submitButton.style.cursor = "pointer";
+        submitButton.title = "";
+    }
+
+    payButton.disabled = true;
+    payButton.textContent = "결제완료";
+
+    return;
     const merchantUid = "undam_" + Date.now();
 
     IMP.request_pay(
