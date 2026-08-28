@@ -496,10 +496,36 @@
   </div>
 </div>
 
-      <div class="subsection">
-        <h3>대운 흐름</h3>
-        <div class="flow">{{ manse.daeyun_text }}</div>
-      </div>
+     <div class="subsection">
+  <h3>대운 흐름</h3>
+
+  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px;">
+    {% for item in manse.daeyun_text.split(' / ') %}
+      {% if item.strip() %}
+
+        {% if manse.current_daeyun and manse.current_daeyun.split(' ')[0] in item %}
+          <div style="padding:16px 10px;text-align:center;border:2px solid #5b2d8b;border-radius:14px;background:#f6f0fb;">
+            <div style="font-size:11px;color:#5b2d8b;font-weight:800;margin-bottom:6px;">현재 대운</div>
+            <div style="font-size:14px;font-weight:850;color:#432066;line-height:1.6;">
+              {{ item }}
+            </div>
+          </div>
+        {% else %}
+          <div style="padding:16px 10px;text-align:center;border:1px solid #e8e0ee;border-radius:14px;background:#fff;">
+            <div style="font-size:14px;font-weight:750;color:#443c49;line-height:1.6;">
+              {{ item }}
+            </div>
+          </div>
+        {% endif %}
+
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div style="margin-top:14px;font-size:12px;color:#746c7e;line-height:1.7;">
+    ※ 대운은 약 10년 단위로 변화하는 삶의 큰 흐름입니다.
+  </div>
+</div>
     </section>
     {% endif %}
 
