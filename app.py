@@ -378,8 +378,9 @@ def index():
     manse = None
     form = request.form.to_dict() if request.method == "POST" else {}
 
-    if request.method == "POST":
-                if not session.pop("payment_verified", False):
+           if request.method == "POST":
+
+        if not session.pop("payment_verified", False):
             return render_template(
                 "index.html",
                 result=None,
@@ -387,6 +388,7 @@ def index():
                 manse=None,
                 form=form
             )
+
         try:
             name = form.get("name", "").strip()
             gender = form.get("gender", "").strip()
