@@ -214,43 +214,142 @@
 #name{
   max-width:430px !important;
 }
+/* ===== PC + 모바일 입력화면 최종 정렬 ===== */
 
+/* 상담유형 : 글자 옆에 버튼 2개 일렬 배치 */
+form[action="#result"] > .field.full:first-child{
+  display:flex !important;
+  align-items:center !important;
+  gap:14px !important;
+  flex-wrap:wrap !important;
+  margin-bottom:24px !important;
+}
+
+form[action="#result"] > .field.full:first-child > label{
+  margin:0 !important;
+  min-width:auto !important;
+}
+
+form[action="#result"] > .field.full:first-child > .choice{
+  display:flex !important;
+  gap:8px !important;
+  align-items:center !important;
+}
+
+
+/* 이름 / 생년월일 / 출생시간 줄 간격 */
+.field.full:has(#name),
+.field.full:has(#birthdate),
+.field.full:has(#birth-hour){
+  margin-bottom:20px !important;
+}
+
+
+/* 이름, 생년월일, 출생시간 제목 끝선 맞춤 */
+.field.full:has(#name) > div > label,
+.field.full:has(#birthdate) > div > label,
+.field.full:has(#birth-hour) > div > label{
+  width:105px !important;
+  min-width:105px !important;
+  text-align:right !important;
+  margin:0 !important;
+}
+
+
+/* 이름 입력칸 */
+#name{
+  width:320px !important;
+  max-width:320px !important;
+  flex:none !important;
+}
+
+
+/* 생년월일 입력칸 - 이름과 같은 폭 */
 #birthdate{
-  max-width:430px !important;
+  width:320px !important;
+  max-width:320px !important;
+  flex:none !important;
 }
 
-#birthtime{
-  max-width:260px !important;
-}
 
+/* 출생시간 전체 폭 */
 .time-select-row{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  max-width:430px;
+  width:520px !important;
+  max-width:520px !important;
+  display:flex !important;
+  gap:10px !important;
 }
 
 .time-select-row select{
-  height:50px;
-  padding:0 12px;
-  border:1px solid #ddd5e5;
-  border-radius:12px;
-  background:#fff;
-  font-size:16px;
-  font-weight:700;
+  flex:1 !important;
+  width:auto !important;
+  min-width:0 !important;
+  height:54px !important;
 }
 
-.time-select-row .hour-select{
-  width:95px;
+
+/* 출생시간 도움말 위치 */
+.field.full:has(#birth-hour) .help{
+  margin-left:117px !important;
 }
 
-.time-select-row .minute-select{
-  width:95px;
+
+/* ===== 핸드폰 화면 ===== */
+@media (max-width:700px){
+
+  form[action="#result"] > .field.full:first-child{
+    gap:9px !important;
+  }
+
+  form[action="#result"] > .field.full:first-child > label{
+    width:100% !important;
+    margin-bottom:3px !important;
+  }
+
+  /* 이름/생년월일/출생시간은 모바일에서 자연스럽게 줄바꿈 */
+  .field.full:has(#name) > div,
+  .field.full:has(#birthdate) > div,
+  .field.full:has(#birth-hour) > div{
+    display:flex !important;
+    flex-wrap:wrap !important;
+    gap:9px !important;
+  }
+
+  .field.full:has(#name) > div > label,
+  .field.full:has(#birthdate) > div > label,
+  .field.full:has(#birth-hour) > div > label{
+    width:100% !important;
+    min-width:0 !important;
+    text-align:left !important;
+  }
+
+  #name,
+  #birthdate{
+    width:100% !important;
+    max-width:100% !important;
+  }
+
+  .time-select-row{
+    width:100% !important;
+    max-width:100% !important;
+  }
+
+  .time-select-row select{
+    min-width:0 !important;
+    padding:0 8px !important;
+    font-size:15px !important;
+  }
+
+  .field.full:has(#birth-hour) .help{
+    margin-left:0 !important;
+  }
+
+  .choice label{
+    min-height:44px !important;
+    padding:10px 14px !important;
+  }
 }
 
-.time-select-row .ampm-select{
-  width:105px;
-}
     .error{
       margin-top:18px;padding:16px 17px;border-radius:16px;border:1px solid #f0c6c6;
       background:var(--danger-bg);color:var(--danger)
