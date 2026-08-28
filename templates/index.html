@@ -209,6 +209,48 @@
   min-width:66px !important;
   padding:11px 14px !important;
 }
+  /* 입력화면 최종 정리 */
+
+#name{
+  max-width:430px !important;
+}
+
+#birthdate{
+  max-width:430px !important;
+}
+
+#birthtime{
+  max-width:260px !important;
+}
+
+.time-select-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  max-width:430px;
+}
+
+.time-select-row select{
+  height:50px;
+  padding:0 12px;
+  border:1px solid #ddd5e5;
+  border-radius:12px;
+  background:#fff;
+  font-size:16px;
+  font-weight:700;
+}
+
+.time-select-row .hour-select{
+  width:95px;
+}
+
+.time-select-row .minute-select{
+  width:95px;
+}
+
+.time-select-row .ampm-select{
+  width:105px;
+}
     .error{
       margin-top:18px;padding:16px 17px;border-radius:16px;border:1px solid #f0c6c6;
       background:var(--danger-bg);color:var(--danger)
@@ -396,13 +438,42 @@
 
   <input type="hidden" name="leap_month" value="평달">
 </div>
+<div class="field">
+  <label>출생시간</label>
 
-          <div class="field">
-            <label for="birthtime">출생시간</label>
-            <input id="birthtime" name="birthtime" type="time" value="{{ form.get('birthtime','') }}">
-            <div class="help">모르면 비워두셔도 됩니다. 정밀 대운 계산은 제한됩니다.</div>
-          </div>
+  <div class="time-select-row">
 
+    <select id="birth-hour" class="hour-select">
+      <option value="">시</option>
+      {% for h in range(1,13) %}
+      <option value="{{ h }}">{{ h }}시</option>
+      {% endfor %}
+    </select>
+
+    <select id="birth-minute" class="minute-select">
+      <option value="">분</option>
+      {% for m in range(0,60,5) %}
+      <option value="{{ '%02d'|format(m) }}">{{ '%02d'|format(m) }}분</option>
+      {% endfor %}
+    </select>
+
+    <select id="birth-ampm" class="ampm-select">
+      <option value="AM">오전</option>
+      <option value="PM">오후</option>
+    </select>
+
+  </div>
+
+  <input type="hidden"
+         id="birthtime"
+         name="birthtime"
+         value="{{ form.get('birthtime','') }}">
+
+  <div class="help">
+    시 · 분 · 오전/오후를 선택하세요. 모르면 비워두셔도 됩니다.
+  </div>
+</div>
+         
 <div id="partnerFields" style="display: none;">
     <div class="field full">
         <label>궁합 상담 상대방 정보</label>
@@ -786,6 +857,38 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     updatePartnerFields();
+});
+   document.addEventListener("DOMContentLoaded", function () {
+
+  const hour = document.getElementById("birth-hour");
+  const minute = document.getElementById("birth-minute");
+  const ampm = document.getElementById("birth-ampm");
+  const hiddenTime = document.getElementById("birthtime");
+
+  function updateBirthTime() {
+    if (!hour || !minute || !ampm || !hiddenTime) return;
+
+    if (!hour.value || !minute.value) {
+      hiddenTime.value = "";
+      return;
+    }
+
+    let h = parseInt(hour.value, 10);
+
+    if (ampm.value === "AM") {
+      if (h === 12) h = 0;
+    } else {
+      if (h !== 12) h += 12;
+    }
+
+    hiddenTime.value =
+      String(h).padStart(2, "0") + ":" + minute.value;
+  }
+
+  hour.addEventListener("change", updateBirthTime);
+  minute.addEventListener("change", updateBirthTime);
+  ampm.addEventListener("change", updateBirthTime);
+
 });
 </script> 
 </body>
