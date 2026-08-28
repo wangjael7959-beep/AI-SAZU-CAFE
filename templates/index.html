@@ -217,24 +217,27 @@
 /* ===== PC + 모바일 입력화면 최종 정렬 ===== */
 
 /* 상담유형 : 글자 옆에 버튼 2개 일렬 배치 */
-form[action="#result"] > .field.full:first-child{
+/* 상담 유형 + 버튼을 한 줄로 */
+.field.full:has(input[name="consultation_type"]){
   display:flex !important;
   align-items:center !important;
-  gap:14px !important;
+  gap:12px !important;
   flex-wrap:nowrap !important;
   margin-bottom:24px !important;
 }
 
-form[action="#result"] > .field.full:first-child > label{
+.field.full:has(input[name="consultation_type"]) > label{
   margin:0 !important;
-  min-width:82px !important;
+  width:auto !important;
+  min-width:72px !important;
   white-space:nowrap !important;
 }
 
-form[action="#result"] > .field.full:first-child > .choice{
+.field.full:has(input[name="consultation_type"]) > .choice{
   display:flex !important;
-  gap:8px !important;
   align-items:center !important;
+  gap:8px !important;
+  flex-wrap:nowrap !important;
 }
 
 
