@@ -295,6 +295,14 @@ def verify_payment():
         imp_uid = data.get("imp_uid", "")
         merchant_uid = data.get("merchant_uid", "")
 
+          
+        if os.environ.get("PAYMENT_TEST_MODE") == "1":
+            session["payment_verified"] = True
+            return jsonify({
+                "ok": True,
+                "message": "테스트 결제가 확인되었습니다."
+            })
+
         if not imp_uid or not merchant_uid:
             return jsonify({"ok": False, "message": "결제정보가 없습니다."}), 400
 
