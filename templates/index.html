@@ -638,6 +638,7 @@
                     type="text"
                     value="{{ form.get('partner_name', '') }}"
                     placeholder="예: 홍길순"
+                  style="width:320px;max-width:320px;flex:none;"
                 >
 
                 <div class="choice" style="flex-wrap:nowrap;">
@@ -673,8 +674,8 @@
                     inputmode="numeric"
                     value="{{ form.get('partner_birthdate', '') }}"
                     placeholder="예: 1959-08-18"
+                  style="width:320px;max-width:320px;flex:none;"
                 >
-
                 <div class="choice calendar-choice" style="flex-wrap:nowrap;">
                     <input
                         id="partner-cal-solar"
@@ -702,7 +703,14 @@
         <div class="field full">
             <label>상대방 출생시간</label>
 
-            <div style="display:flex;gap:10px;">
+           <div
+    class="time-select-row"
+    style="
+        display:flex;
+        width:360px;
+        gap:8px;
+    "
+>
                 <select id="partner-birth-hour"
                         style="flex:1;height:50px;font-size:16px;border-radius:12px;padding:0 10px;">
                     <option value="">시</option>
