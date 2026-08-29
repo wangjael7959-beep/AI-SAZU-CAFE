@@ -384,6 +384,7 @@ def index():
     result = None
     error = None
     manse = None
+    partner_manse = None
     form = request.form.to_dict() if request.method == "POST" else {}
     
     if request.method == "POST":
@@ -644,6 +645,7 @@ def index():
         error=error,
         form=form,
         manse=manse,
+        partner_manse=partner_manse,
     )
 
 
