@@ -1203,11 +1203,13 @@ document.addEventListener("DOMContentLoaded", function () {
         partnerMinute.addEventListener("change", updatePartnerBirthTime);
         partnerAmpm.addEventListener("change", updatePartnerBirthTime);
 
-    if (selected && selected.value === "compatibility") {
-        partnerFields.style.display = "contents";
-    } else {
-        partnerFields.style.display = "none";
-    }
+   if (selected && selected.value === "compatibility") {
+    partnerFields.style.display = "contents";
+    document.getElementById("consultSubmitBtn").textContent = "우리 궁합 상담 보기";
+} else {
+    partnerFields.style.display = "none";
+    document.getElementById("consultSubmitBtn").textContent = "내 사주 상담 보기";
+}
 }
 
     typeButtons.forEach(function (button) {
