@@ -266,8 +266,47 @@ def build_manse(year, month, day, calendar_type, leap_month, birthtime, gender, 
         "current_year_ganzhi": current_year_ganzhi,
         "has_birthtime": has_birthtime,
     }
+def build_iching():
+    now = datetime.now(SEOUL_TZ)
 
+    trigrams = {
+        1: ("건", "乾", "하늘"),
+        2: ("태", "兌", "못"),
+        3: ("리", "離", "불"),
+        4: ("진", "震", "우레"),
+        5: ("손", "巽", "바람"),
+        6: ("감", "坎", "물"),
+        7: ("간", "艮", "산"),
+        8: ("곤", "坤", "땅"),
+    }
 
+    upper_num = (now.year + now.month + now.day) % 8
+    if upper_num == 0:
+        upper_num = 8
+
+    lower_num = (now.year + now.month + now.day + now.hour) % 8
+    if lower_num == 0:
+        lower_num = 8
+
+    moving_line = (now.year + now.month + now.day + now.hour) % 6
+    if moving_line == 0:
+        moving_line = 6
+
+    upper = trigrams[upper_num]
+    lower = trigrams[lower_num]
+
+    return {
+        "upper_num": upper_num,
+        "lower_num": lower_num,
+        "upper_name": upper[0],
+        "upper_hanja": upper[1],
+        "upper_symbol": upper[2],
+        "lower_name": lower[0],
+        "lower_hanja": lower[1],
+        "lower_symbol": lower[2],
+        "moving_line": moving_line,
+        "calculated_at": now.strftime("%Y-%m-%d %H:%M"),
+    }
 def make_chart_text(manse, name, gender, birthtime, birthplace):
     time_text = birthtime if birthtime else "모름"
     place_text = birthplace if birthplace else "미입력"
@@ -436,6 +475,7 @@ def index():
                 gender,
                 birthplace,
                 )
+            iching = build_iching()
             partner_chart_text = ""
 
             if consultation_type == "compatibility":
@@ -471,6 +511,12 @@ def index():
                     "",
                 )
             chart_text = make_chart_text(manse, name, gender, birthtime, birthplace)
+            iching_text = f"""주역 시간괘 참고
+           계산 시각: {iching['calculated_at']}
+           상괘: {iching['upper_name']}({iching['upper_hanja']}) - {iching['upper_symbol']}
+           하괘: {iching['lower_name']}({iching['lower_hanja']}) - {iching['lower_symbol']}
+           동효: {iching['moving_line']}효
+           """
             question_text = question or "전체적인 사주와 앞으로의 삶의 흐름을 알려주세요."
             compatibility_text = ""
             if consultation_type == "compatibility":
@@ -495,13 +541,14 @@ def index():
 
 [본인 만세력 자료]
 {chart_text}
-
+[주역 시간괘 참고]
+{iching_text}
 [궁합 자료]
 {compatibility_text}
 
 [상담자가 궁금해하는 내용]
 {question_text}
-
+주역 시간괘는 만세력 계산값을 변경하지 말고 현재 상황을 보완해서 해석하는 참고 자료로만 사용하세요.
 아래 순서를 반드시 지켜서 답변하세요.
 항목을 빠뜨리거나 순서를 바꾸지 마세요.
 같은 내용을 여러 항목에서 반복하지 마세요.
