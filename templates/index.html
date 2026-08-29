@@ -320,7 +320,7 @@
     font-size:15px !important;
   }
 
-  .field.full:has(#birth-hour) .help{
+  .field.full:has(#) .help{
     margin-left:0 !important;
   }
 
@@ -628,70 +628,115 @@
         <div class="help">궁합을 보고 싶은 경우에만 입력하세요.</div>
     </div>
 
-    <div class="field">
-        <label for="partner_name">상대방 이름</label>
-        <input id="partner_name" name="partner_name" type="text"
-               value="{{ form.get('partner_name', '') }}"
-               placeholder="예: 홍길순">
-    </div>
+           <div class="field full">
+            <label>상대방 이름</label>
 
-    <div class="field">
-        <label for="partner_gender">상대방 성별</label>
-        <select id="partner_gender" name="partner_gender">
-            <option value="">선택 안 함</option>
-            <option value="남성">남성</option>
-            <option value="여성">여성</option>
-        </select>
-    </div>
-<div class="field full">
-  <label for="partner_birthdate">상대방 생년월일</label>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;">
+                <input
+                    id="partner_name"
+                    name="partner_name"
+                    type="text"
+                    value="{{ form.get('partner_name', '') }}"
+                    placeholder="예: 홍길순"
+                >
 
-  <div style="
-    display:grid;
-    grid-template-columns:minmax(0,1fr) auto;
-    gap:12px;
-    align-items:center;
-  ">
+                <div class="choice" style="flex-wrap:nowrap;">
+                    <input
+                        id="partner-gender-male"
+                        name="partner_gender"
+                        type="radio"
+                        value="남성"
+                        {% if form.get('partner_gender') == '남성' %}checked{% endif %}
+                    >
+                    <label for="partner-gender-male">남성</label>
 
-    <input
-      id="partner_birthdate"
-      name="partner_birthdate"
-      type="text"
-      inputmode="numeric"
-      value="{{ form.get('partner_birthdate','') }}"
-      placeholder="예: 1959-08-18"
-    >
+                    <input
+                        id="partner-gender-female"
+                        name="partner_gender"
+                        type="radio"
+                        value="여성"
+                        {% if form.get('partner_gender') == '여성' %}checked{% endif %}
+                    >
+                    <label for="partner-gender-female">여성</label>
+                </div>
+            </div>
+        </div>
 
-    <div class="choice calendar-choice" style="flex-wrap:nowrap;">
-      <input
-        id="partner-cal-solar"
-        name="partner_calendar_type"
-        type="radio"
-        value="양력"
-        {% if form.get('partner_calendar_type','양력') == '양력' %}checked{% endif %}
-      >
-      <label for="partner-cal-solar">양력</label>
+        <div class="field full">
+            <label>상대방 생년월일</label>
 
-      <input
-        id="partner-cal-lunar"
-        name="partner_calendar_type"
-        type="radio"
-        value="음력"
-        {% if form.get('partner_calendar_type') == '음력' %}checked{% endif %}
-      >
-      <label for="partner-cal-lunar">음력</label>
-    </div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;">
+                <input
+                    id="partner_birthdate"
+                    name="partner_birthdate"
+                    type="text"
+                    inputmode="numeric"
+                    value="{{ form.get('partner_birthdate', '') }}"
+                    placeholder="예: 1959-08-18"
+                >
 
-  </div>
+                <div class="choice calendar-choice" style="flex-wrap:nowrap;">
+                    <input
+                        id="partner-cal-solar"
+                        name="partner_calendar_type"
+                        type="radio"
+                        value="양력"
+                        {% if form.get('partner_calendar_type', '양력') == '양력' %}checked{% endif %}
+                    >
+                    <label for="partner-cal-solar">양력</label>
 
-  <input type="hidden" name="partner_leap_month" value="평달">
-</div>
-    <div class="field">
-        <label for="partner_birthtime">상대방 출생시간</label>
-        <input id="partner_birthtime" name="partner_birthtime" type="time"
-               value="{{ form.get('partner_birthtime', '') }}">
-    </div>
-</div>
+                    <input
+                        id="partner-cal-lunar"
+                        name="partner_calendar_type"
+                        type="radio"
+                        value="음력"
+                        {% if form.get('partner_calendar_type') == '음력' %}checked{% endif %}
+                    >
+                    <label for="partner-cal-lunar">음력</label>
+                </div>
+            </div>
+
+            <input type="hidden" name="partner_leap_month" value="평달">
+        </div>
+
+        <div class="field full">
+            <label>상대방 출생시간</label>
+
+            <div style="display:flex;gap:10px;">
+                <select id="partner-birth-hour"
+                        style="flex:1;height:50px;font-size:16px;border-radius:12px;padding:0 10px;">
+                    <option value="">시</option>
+                    {% for h in range(1,13) %}
+                    <option value="{{ h }}">{{ h }}시</option>
+                    {% endfor %}
+                </select>
+
+                <select id="partner-birth-minute"
+                        style="flex:1;height:50px;font-size:16px;border-radius:12px;padding:0 10px;">
+                    <option value="">분</option>
+                    {% for m in range(0,60,5) %}
+                    <option value="{{ '%02d'|format(m) }}">{{ '%02d'|format(m) }}분</option>
+                    {% endfor %}
+                </select>
+
+                <select id="partner-birth-ampm"
+                        style="flex:1;height:50px;font-size:16px;border-radius:12px;padding:0 10px;">
+                    <option value="AM">오전</option>
+                    <option value="PM">오후</option>
+                </select>
+            </div>
+
+            <input
+                type="hidden"
+                id="partner_birthtime"
+                name="partner_birthtime"
+                value="{{ form.get('partner_birthtime', '') }}"
+            >
+
+            <div class="help" style="margin-top:7px;">
+                모르면 비워두셔도 됩니다.
+            </div>
+        </div>
           <div class="field full">
             <label for="question">궁금한 내용</label>
             <textarea id="question" name="question" placeholder="예: 올해 재물운과 건강운, 앞으로의 사업 흐름이 궁금합니다.">{{ form.get('question','') }}</textarea>
@@ -1129,6 +1174,34 @@ document.addEventListener("DOMContentLoaded", function () {
             label.style.boxShadow = "none";
         }
     });
+             const partnerHour = document.getElementById("partner-birth-hour");
+        const partnerMinute = document.getElementById("partner-birth-minute");
+        const partnerAmpm = document.getElementById("partner-birth-ampm");
+        const partnerHiddenTime = document.getElementById("partner_birthtime");
+
+        function updatePartnerBirthTime() {
+            if (!partnerHour || !partnerMinute || !partnerAmpm || !partnerHiddenTime) return;
+
+            if (!partnerHour.value || !partnerMinute.value) {
+                partnerHiddenTime.value = "";
+                return;
+            }
+
+            let h = parseInt(partnerHour.value, 10);
+
+            if (partnerAmpm.value === "AM") {
+                if (h === 12) h = 0;
+            } else {
+                if (h !== 12) h += 12;
+            }
+
+            partnerHiddenTime.value =
+                String(h).padStart(2, "0") + ":" + partnerMinute.value;
+        }
+
+        partnerHour.addEventListener("change", updatePartnerBirthTime);
+        partnerMinute.addEventListener("change", updatePartnerBirthTime);
+        partnerAmpm.addEventListener("change", updatePartnerBirthTime);
 
     if (selected && selected.value === "compatibility") {
         partnerFields.style.display = "contents";
