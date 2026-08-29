@@ -1315,6 +1315,11 @@ if (consultForm) {
     if (btn) {
      const isCompatibility = document.getElementById("partnerFields")?.style.display === "contents";
 btn.innerText = isCompatibility ? "궁합을 분석하고 있습니다..." : "사주를 분석하고 있습니다...";
+     if (msg) {
+    msg.innerText = isCompatibility
+        ? "궁합을 정밀하게 분석하고 있습니다. 잠시 기다려 주세요."
+        : "사주를 정밀하게 분석하고 있습니다. 잠시 기다려 주세요.";
+} 
       btn.style.background = "#35155f";
       btn.style.transform = "translateY(3px) scale(.98)";
       btn.style.boxShadow = "inset 0 4px 8px rgba(0,0,0,.35)";
