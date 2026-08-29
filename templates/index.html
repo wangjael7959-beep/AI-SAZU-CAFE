@@ -811,19 +811,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (nameInput) nameInput.value = "";
     if (birthdateInput) birthdateInput.value = "";
+document.querySelectorAll(
+    'input[name="gender"], input[name="calendar_type"]'
+).forEach(function (radio) {
+    radio.checked = false;
 
-    document.querySelectorAll(
-        'input[name="gender"], input[name="calendar_type"]'
-    ).forEach(function (radio) {
-        radio.checked = false;
-
-        const label = radio.closest("label");
-        if (label) {
-            label.style.background = "#ffffff";
-            label.style.color = "#241d2c";
-            label.style.borderColor = "#e8e0ee";
-            label.style.boxShadow = "none";
-        }
+    const label = radio.closest("label");
+    if (label) {
+        label.removeAttribute("style");
+    }
+});
     });
 });
 </script>
@@ -1432,13 +1429,10 @@ document.getElementById("paymentDesc").textContent = "성격·인간관계·재�
       document.querySelectorAll('input[name="gender"], input[name="calendar_type"]').forEach(function (radio) {
     radio.checked = false;
 
-    const label = radio.closest("label");
-    if (label) {
-        label.style.background = "#ffffff";
-        label.style.color = "#241d2c";
-        label.style.borderColor = "#e8e0ee";
-        label.style.boxShadow = "none";
-    }
+   const label = radio.closest("label");
+if (label) {
+    label.removeAttribute("style");
+}
 });
       const partnerName = document.getElementById("partner_name");
 const partnerBirthdate = document.getElementById("partner_birthdate");
@@ -1449,13 +1443,10 @@ if (partnerBirthdate) partnerBirthdate.value = "";
 document.querySelectorAll('input[name="partner_gender"], input[name="partner_calendar_type"]').forEach(function (radio) {
     radio.checked = false;
 
-    const label = radio.closest("label");
-    if (label) {
-        label.style.background = "#ffffff";
-        label.style.color = "#241d2c";
-        label.style.borderColor = "#e8e0ee";
-        label.style.boxShadow = "none";
-    }
+   const label = radio.closest("label");
+if (label) {
+    label.removeAttribute("style");
+}
 });
         if (oldResult) oldResult.style.display = "none";
         if (partnerResult) partnerResult.style.display = "none";
