@@ -1308,12 +1308,13 @@ refreshChoiceButtons();
 const consultForm = document.querySelector('form[action="#result"]');
 
 if (consultForm) {
-  consultForm.addEventListener("submit", function () {
+  
     const btn = document.getElementById("consultSubmitBtn");
     const msg = document.getElementById("consultLoading");
 
     if (btn) {
-      btn.innerText = "사주를 분석하고 있습니다…";
+     const isCompatibility = document.getElementById("partnerFields")?.style.display === "contents";
+btn.innerText = isCompatibility ? "궁합을 분석하고 있습니다..." : "사주를 분석하고 있습니다...";
       btn.style.background = "#35155f";
       btn.style.transform = "translateY(3px) scale(.98)";
       btn.style.boxShadow = "inset 0 4px 8px rgba(0,0,0,.35)";
