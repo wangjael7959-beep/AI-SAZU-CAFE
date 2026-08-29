@@ -1321,7 +1321,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
    function updatePartnerFields() {
     const selected = document.querySelector('input[name="consultation_type"]:checked');
-
+if (partnerFields) {
+    partnerFields.style.display =
+        (selected && selected.value === "compatibility") ? "block" : "none";
+}
     typeButtons.forEach(function (button) {
         const label = button.closest("label");
 
@@ -1369,7 +1372,7 @@ document.addEventListener("DOMContentLoaded", function () {
    if (selected && selected.value === "compatibility") {
      document.getElementById("paymentTitle").textContent = "궁합 종합상담 1회";
 document.getElementById("paymentDesc").textContent = "두 사람의 성향·관계 흐름·갈등 포인트·상호 보완점을 종합적으로 상담합니다.";
-    partnerFields.style.display = "contents";
+    partnerFields.style.display = "block";
     document.getElementById("consultSubmitBtn").textContent = "우리 궁합 상담 보기";
 } else {document.getElementById("paymentTitle").textContent = "사주 종합상담 1회";
 document.getElementById("paymentDesc").textContent = "성격·인간관계·재물운·직업운·생활 방향 및 궁금한 질문을 종합적으로 상담합니다.";
