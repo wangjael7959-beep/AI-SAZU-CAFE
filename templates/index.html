@@ -1318,7 +1318,19 @@ document.addEventListener("DOMContentLoaded", function () {
     submitButton.style.fontWeight = "800";
 }
     const typeButtons = document.querySelectorAll('input[name="consultation_type"]');
+{% if result %}
+typeButtons.forEach(function (button) {
+    button.checked = false;
 
+    const label = button.closest("label");
+    if (label) {
+        label.style.background = "#ffffff";
+        label.style.color = "#241d2c";
+        label.style.borderColor = "#e8e0ee";
+        label.style.boxShadow = "none";
+    }
+});
+{% endif %}
    function updatePartnerFields() {
     const selected = document.querySelector('input[name="consultation_type"]:checked');
 if (partnerFields) {
@@ -1478,7 +1490,8 @@ if (consultForm) {
     const msg = document.getElementById("consultLoading");
 
     if (btn) {
-     const isCompatibility = document.getElementById("partnerFields")?.style.display === "contents";
+    const isCompatibility =
+    document.querySelector('input[name="consultation_type"]:checked')?.value === "compatibility";
 btn.innerText = isCompatibility ? "궁합을 분석하고 있습니다..." : "사주를 분석하고 있습니다...";
      if (msg) {
     msg.innerText = isCompatibility
