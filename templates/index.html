@@ -1358,7 +1358,16 @@ if (partnerFields) {
     partnerFields.style.display =
         (selected && selected.value === "compatibility") ? "block" : "none";
 }
-    typeButtons.forEach(function (button) {
+   const questionBox = document.getElementById("question");
+
+    if (questionBox) {
+    if (selected && selected.value === "compatibility") {
+        questionBox.placeholder = "예: 두 사람의 궁합과 앞으로의 관계 흐름, 서로 조심해야 할 점이 궁금합니다.";
+    } else {
+        questionBox.placeholder = "예: 올해 재물운과 건강은, 앞으로의 사업 흐름이 궁금합니다.";
+    }
+}
+     typeButtons.forEach(function (button) {
         const label = button.closest("label");
 
         if (button.checked) {
