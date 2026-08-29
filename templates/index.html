@@ -1308,7 +1308,7 @@ refreshChoiceButtons();
 const consultForm = document.querySelector('form[action="#result"]');
 
 if (consultForm) {
-  
+      consultForm.addEventListener("submit", function () {
     const btn = document.getElementById("consultSubmitBtn");
     const msg = document.getElementById("consultLoading");
 
