@@ -1147,7 +1147,7 @@
     </section>
     {% endif %}
     
-<section style="margin:24px 0; padding:20px; border:1px solid #ddd; border-radius:14px; line-height:1.8;">
+<section id="paymentSection" style="margin:24px 0; padding:20px; border:1px solid #ddd; border-radius:14px; line-height:1.8; {% if result %}display:none;{% endif %}">
  
   <div style="margin-top:16px; padding:18px; background:#f7f5ff; border-radius:12px;">
    <strong id="paymentTitle" style="font-size:20px;">사주 종합상담 1회</strong>
@@ -1381,9 +1381,23 @@ document.getElementById("paymentDesc").textContent = "성격·인간관계·재�
 }
 }
 
-    typeButtons.forEach(function (button) {
-        button.addEventListener("change", updatePartnerFields);
+   typeButtons.forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+        const oldResult = document.getElementById("result");
+        const partnerResult = document.getElementById("parter-result");
+        const aiResult = document.querySelector(".ai-card");
+        const paymentSection = document.getElementById("paymentSection");
+
+        if (oldResult) oldResult.style.display = "none";
+        if (partnerResult) partnerResult.style.display = "none";
+        if (aiResult) aiResult.style.display = "none";
+        if (paymentSection) paymentSection.style.display = "block";
     });
+
+    button.addEventListener("change", updatePartnerFields);
+});
 
     updatePartnerFields();
 });
