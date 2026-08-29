@@ -803,7 +803,31 @@
       {{ error }}
     </section>
     {% endif %}
+    {% if manse %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const nameInput = document.getElementById("name");
+    const birthdateInput = document.getElementById("birthdate");
 
+    if (nameInput) nameInput.value = "";
+    if (birthdateInput) birthdateInput.value = "";
+
+    document.querySelectorAll(
+        'input[name="gender"], input[name="calendar_type"]'
+    ).forEach(function (radio) {
+        radio.checked = false;
+
+        const label = radio.closest("label");
+        if (label) {
+            label.style.background = "#ffffff";
+            label.style.color = "#241d2c";
+            label.style.borderColor = "#e8e0ee";
+            label.style.boxShadow = "none";
+        }
+    });
+});
+</script>
+    {% endif %}
     {% if manse %}
     <section class="card" id="result">
       <div class="result-head">
