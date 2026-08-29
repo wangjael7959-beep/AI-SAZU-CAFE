@@ -949,7 +949,153 @@
 </div>
     </section>
     {% endif %}
+    {% if partner_manse %}
+{% with manse = partner_manse %}
+ <section class="card" id="partner-result">
+      <div class="result-head">
+        <div class="eyebrow">MANSE CALCULATION</div>
+        <h2>상대방 만세력 계산 결과</h2>
+        <p>입력값을 변환·계산한 뒤 상담 해석에 그대로 사용한 기초 자료입니다.</p>
+      </div>
 
+      <div class="manse-grid">
+        <div class="manse-item">
+          <div class="k">양력 환산</div>
+          <div class="v">{{ manse.solar_text }}</div>
+        </div>
+        <div class="manse-item">
+          <div class="k">음력</div>
+          <div class="v">{{ manse.lunar_text }}</div>
+        </div>
+        <div class="manse-item wide">
+          <div class="k">표면 오행 분포</div>
+          <div class="v">{{ manse.element_text }}</div>
+        </div>
+        <div class="manse-item wide">
+          <div class="k">천간 기준 십신</div>
+          <div class="v">{{ manse.shishen_text }}</div>
+        </div>
+      </div>
+
+      <div class="pillars" style="margin:20px 0;">
+  <div class="k" style="margin-bottom:12px;font-weight:800;">사주팔자</div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+    <div style="padding:16px 10px;text-align:center;border:1px solid #e8e0ee;border-radius:14px;background:#faf8fc;">
+      <div style="font-size:13px;color:#746c7e;margin-bottom:8px;">년주</div>
+      <div style="font-size:22px;font-weight:800;color:#432066;">{{ manse.year_pillar }}</div>
+    </div>
+
+    <div style="padding:16px 10px;text-align:center;border:1px solid #e8e0ee;border-radius:14px;background:#faf8fc;">
+      <div style="font-size:13px;color:#746c7e;margin-bottom:8px;">월주</div>
+      <div style="font-size:22px;font-weight:800;color:#432066;">{{ manse.month_pillar }}</div>
+    </div>
+
+    <div style="padding:16px 10px;text-align:center;border:2px solid #5b2d8b;border-radius:14px;background:#f6f0fb;">
+      <div style="font-size:13px;color:#5b2d8b;margin-bottom:8px;">일주 · 본인</div>
+      <div style="font-size:22px;font-weight:900;color:#432066;">{{ manse.day_pillar }}</div>
+    </div>
+
+    <div style="padding:16px 10px;text-align:center;border:1px solid #e8e0ee;border-radius:14px;background:#faf8fc;">
+      <div style="font-size:13px;color:#746c7e;margin-bottom:8px;">시주</div>
+      <div style="font-size:22px;font-weight:800;color:#432066;">{{ manse.time_pillar }}</div>
+    </div>
+  </div>
+</div>
+
+     <div class="subsection">
+  <h3>오행 구성</h3>
+
+  <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:14px;">
+
+    <div style="padding:14px 6px;text-align:center;border:1px solid #dfe8df;border-radius:14px;background:#f7fbf7;">
+      <div style="font-size:14px;font-weight:800;">목(木)</div>
+      <div style="font-size:24px;font-weight:900;margin-top:6px;">{{ manse.wood_count }}</div>
+    </div>
+
+    <div style="padding:14px 6px;text-align:center;border:1px solid #eadfdf;border-radius:14px;background:#fff8f7;">
+      <div style="font-size:14px;font-weight:800;">화(火)</div>
+      <div style="font-size:24px;font-weight:900;margin-top:6px;">{{ manse.fire_count }}</div>
+    </div>
+
+    <div style="padding:14px 6px;text-align:center;border:1px solid #e8e2d8;border-radius:14px;background:#fbf9f4;">
+      <div style="font-size:14px;font-weight:800;">토(土)</div>
+      <div style="font-size:24px;font-weight:900;margin-top:6px;">{{ manse.earth_count }}</div>
+    </div>
+
+    <div style="padding:14px 6px;text-align:center;border:1px solid #e4e4e4;border-radius:14px;background:#fafafa;">
+      <div style="font-size:14px;font-weight:800;">금(金)</div>
+      <div style="font-size:24px;font-weight:900;margin-top:6px;">{{ manse.metal_count }}</div>
+    </div>
+
+    <div style="padding:14px 6px;text-align:center;border:1px solid #dde4ec;border-radius:14px;background:#f7f9fc;">
+      <div style="font-size:14px;font-weight:800;">수(水)</div>
+      <div style="font-size:24px;font-weight:900;margin-top:6px;">{{ manse.water_count }}</div>
+    </div>
+
+  </div>
+</div>
+
+      <div class="subsection">
+        <h3>대운 시작</h3>
+        <div class="flow">{{ manse.luck_start_text }}</div>
+      </div>
+
+     <div class="subsection">
+  <h3>현재 대운과 세운</h3>
+
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px;">
+
+    <div style="padding:18px;border:1px solid #e4d9ed;border-radius:16px;background:#faf7fc;">
+      <div style="font-size:13px;color:#746c7e;margin-bottom:8px;">현재 대운</div>
+      <div style="font-size:21px;font-weight:900;color:#432066;line-height:1.5;">
+        {{ manse.current_daeyun }}
+      </div>
+    </div>
+
+    <div style="padding:18px;border:2px solid #5b2d8b;border-radius:16px;background:#f6f0fb;">
+      <div style="font-size:13px;color:#5b2d8b;margin-bottom:8px;">{{ manse.current_year }}년 세운</div>
+      <div style="font-size:24px;font-weight:900;color:#432066;">
+        {{ manse.current_year_ganzhi }}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+     <div class="subsection">
+  <h3>대운 흐름</h3>
+
+  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px;">
+    {% for item in manse.daeyun_text.split(' / ') %}
+      {% if item.strip() %}
+
+        {% if manse.current_daeyun and manse.current_daeyun.split(' ')[0] in item %}
+          <div style="padding:16px 10px;text-align:center;border:2px solid #5b2d8b;border-radius:14px;background:#f6f0fb;">
+            <div style="font-size:11px;color:#5b2d8b;font-weight:800;margin-bottom:6px;">현재 대운</div>
+            <div style="font-size:14px;font-weight:850;color:#432066;line-height:1.6;">
+              {{ item }}
+            </div>
+          </div>
+        {% else %}
+          <div style="padding:16px 10px;text-align:center;border:1px solid #e8e0ee;border-radius:14px;background:#fff;">
+            <div style="font-size:14px;font-weight:750;color:#443c49;line-height:1.6;">
+              {{ item }}
+            </div>
+          </div>
+        {% endif %}
+
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div style="margin-top:14px;font-size:12px;color:#746c7e;line-height:1.7;">
+    ※ 대운은 약 10년 단위로 변화하는 삶의 큰 흐름입니다.
+  </div>
+</div>
+    </section>
+    {% endwith %}
+{% endif %}
     {% if result %}
       {% set ai_result = result %}
     <section class="ai-card">
