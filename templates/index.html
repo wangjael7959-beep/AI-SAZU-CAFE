@@ -1401,7 +1401,38 @@ document.getElementById("paymentDesc").textContent = "성격·인간관계·재�
         const partnerResult = document.getElementById("partner-result");
         const aiResult = document.querySelector(".ai-card");
         const paymentSection = document.getElementById("paymentSection");
+        const nameInput = document.getElementById("name");
+        const birthdateInput = document.getElementById("birthdate");
+        if (nameInput) nameInput.value = "";
+        if (birthdateInput) birthdateInput.value = "";
+      document.querySelectorAll('input[name="gender"], input[name="calendar_type"]').forEach(function (radio) {
+    radio.checked = false;
 
+    const label = radio.closest("label");
+    if (label) {
+        label.style.background = "#ffffff";
+        label.style.color = "#241d2c";
+        label.style.borderColor = "#e8e0ee";
+        label.style.boxShadow = "none";
+    }
+});
+      const partnerName = document.getElementById("partner_name");
+const partnerBirthdate = document.getElementById("partner_birthdate");
+
+if (partnerName) partnerName.value = "";
+if (partnerBirthdate) partnerBirthdate.value = "";
+
+document.querySelectorAll('input[name="partner_gender"], input[name="partner_calendar_type"]').forEach(function (radio) {
+    radio.checked = false;
+
+    const label = radio.closest("label");
+    if (label) {
+        label.style.background = "#ffffff";
+        label.style.color = "#241d2c";
+        label.style.borderColor = "#e8e0ee";
+        label.style.boxShadow = "none";
+    }
+});
         if (oldResult) oldResult.style.display = "none";
         if (partnerResult) partnerResult.style.display = "none";
         if (aiResult) aiResult.style.display = "none";
