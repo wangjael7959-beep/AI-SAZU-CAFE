@@ -1327,34 +1327,10 @@ if (submitButton) {
 }
 
 payButton.addEventListener("click", async function () {
-    const response = await fetch("/verify-payment", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({})
-    });
-
-    const result = await response.json();
-
-    if (!response.ok || !result.ok) {
-        alert(result.message || "테스트 결제 확인에 실패했습니다.");
-        return;
-    }
-
-    alert("테스트 결제가 확인되었습니다.");
-
-    if (submitButton) {
-        submitButton.disabled = false;
-        submitButton.style.opacity = "1";
-        submitButton.style.cursor = "pointer";
-        submitButton.title = "";
-    }
-
-    payButton.disabled = true;
-    payButton.textContent = "결제완료";
-
-    return;
+  payButton.disabled = true;
+payButton.textContent = "결제창 여는 중...";
+payButton.style.opacity = "0.7";
+ 
     const merchantUid = "undam_" + Date.now();
 
     IMP.request_pay(
@@ -1372,6 +1348,9 @@ payButton.addEventListener("click", async function () {
         async function (rsp) {
 
             if (!rsp.imp_uid) {
+              payButton.disabled = false;
+              payButton.textContent = "결제하기";
+              payButton.style.opacity = "1";
                 alert("결제가 완료되지 않았습니다.");
                 return;
             }
@@ -1391,6 +1370,9 @@ payButton.addEventListener("click", async function () {
                 const result = await response.json();
 
                 if (!response.ok || !result.ok) {
+                  payButton.disabled = false;
+                  payButton.textContent = "결제하기";
+                  payButton.style.opacity = "1";
                     alert(result.message || "결제 확인에 실패했습니다.");
                     return;
                 }
@@ -1410,6 +1392,9 @@ payButton.addEventListener("click", async function () {
 
             } catch (error) {
                 console.error(error);
+              payButton.disabled = false;
+              payButton.textContent = "결제하기";
+              payButton.style.opacity = "1";
                 alert("결제 확인 중 오류가 발생했습니다.");
             }
         }
