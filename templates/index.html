@@ -401,18 +401,34 @@
     .card,.ai-card{padding:18px;border-radius:19px}
     .grid,.manse-grid{grid-template-columns:1fr}
     .field.full,.manse-item.wide{grid-column:auto}
-   .field.full > div[style*="flex-wrap:nowrap"] > .choice{
-    display:grid !important;
-    grid-template-columns:52px 52px !important;
+   .field.full > div[style*="flex-wrap:nowrap"]{
+    width:100% !important;
     gap:6px !important;
-    width:110px !important;
-    min-width:110px !important;
+}
+
+#name,
+#birthdate{
+    width:135px !important;
+    max-width:135px !important;
+    flex:none !important;
+}
+
+.field.full > div[style*="flex-wrap:nowrap"] > label{
+    min-width:60px !important;
+    width:60px !important;
+}
+
+.field.full > div[style*="flex-wrap:nowrap"] > .choice{
+    display:flex !important;
+    gap:4px !important;
+    width:104px !important;
+    min-width:104px !important;
     margin-left:0 !important;
 }
 
 .field.full > div[style*="flex-wrap:nowrap"] > .choice label{
-    min-width:0 !important;
-    width:52px !important;
+    width:50px !important;
+    min-width:50px !important;
     padding-left:0 !important;
     padding-right:0 !important;
     text-align:center !important;
