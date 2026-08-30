@@ -401,59 +401,60 @@
     .card,.ai-card{padding:18px;border-radius:19px}
     .grid,.manse-grid{grid-template-columns:1fr}
     .field.full,.manse-item.wide{grid-column:auto}
-   .field.full > div[style*="flex-wrap:nowrap"]{
-    display:grid !important;
-    grid-template-columns:60px minmax(0,1fr) 104px !important;
-    align-items:center !important;
-    column-gap:6px !important;
-    width:100% !important;
+   @media (max-width:600px){
+
+    .field.full > div[style*="flex-wrap:nowrap"]{
+        display:grid !important;
+        grid-template-columns:72px minmax(0,1fr) auto !important;
+        align-items:center !important;
+        gap:6px !important;
+        width:100% !important;
+        box-sizing:border-box !important;
+    }
+
+    #name,
+    #birthdate{
+        width:100% !important;
+        max-width:none !important;
+        min-width:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    .field.full > div[style*="flex-wrap:nowrap"] > label{
+        width:auto !important;
+        min-width:0 !important;
+        margin:0 !important;
+        white-space:nowrap !important;
+    }
+
+    .field.full > div[style*="flex-wrap:nowrap"] > .choice{
+        display:flex !important;
+        width:auto !important;
+        min-width:0 !important;
+        gap:4px !important;
+        margin:0 !important;
+        flex-wrap:nowrap !important;
+    }
+
+    .field.full > div[style*="flex-wrap:nowrap"] > .choice label{
+        min-width:46px !important;
+        width:46px !important;
+        padding-left:6px !important;
+        padding-right:6px !important;
+        box-sizing:border-box !important;
+        text-align:center !important;
+        white-space:nowrap !important;
+    }
+
+    .time-select-row{
+        width:100% !important;
+        max-width:none !important;
+        display:grid !important;
+        grid-template-columns:1fr 1fr 1fr !important;
+        gap:6px !important;
+    }
 }
 
-#name,
-#birthdate{
-    width:100% !important;
-    max-width:none !important;
-    min-width:0 !important;
-    flex:none !important;
-}
-
-.field.full > div[style*="flex-wrap:nowrap"] > label{
-    width:60px !important;
-    min-width:60px !important;
-    margin:0 !important;
-}
-
-.field.full > div[style*="flex-wrap:nowrap"] > .choice{
-    display:grid !important;
-    grid-template-columns:50px 50px !important;
-    gap:4px !important;
-    width:104px !important;
-    min-width:104px !important;
-    margin:0 !important;
-}
-
-.field.full > div[style*="flex-wrap:nowrap"] > .choice label{
-    width:50px !important;
-    min-width:50px !important;
-    padding-left:0 !important;
-    padding-right:0 !important;
-    text-align:center !important;
-}
-.field.full > div[style*="flex-wrap:nowrap"] > .choice{
-    display:flex !important;
-    gap:4px !important;
-    width:104px !important;
-    min-width:104px !important;
-    margin-left:0 !important;
-}
-
-.field.full > div[style*="flex-wrap:nowrap"] > .choice label{
-    width:50px !important;
-    min-width:50px !important;
-    padding-left:0 !important;
-    padding-right:0 !important;
-    text-align:center !important;
-}
     .pillars .v{font-size:16px} 
   </style>
   <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
