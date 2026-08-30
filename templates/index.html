@@ -401,8 +401,22 @@
     .card,.ai-card{padding:18px;border-radius:19px}
     .grid,.manse-grid{grid-template-columns:1fr}
     .field.full,.manse-item.wide{grid-column:auto}
-    .choice{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
-    .choice label{min-width:0;width:100%;text-align:center}
+   .field.full > div[style*="flex-wrap:nowrap"] > .choice{
+    display:grid !important;
+    grid-template-columns:52px 52px !important;
+    gap:6px !important;
+    width:110px !important;
+    min-width:110px !important;
+    margin-left:0 !important;
+}
+
+.field.full > div[style*="flex-wrap:nowrap"] > .choice label{
+    min-width:0 !important;
+    width:52px !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    text-align:center !important;
+}
     .pillars .v{font-size:16px} 
   </style>
   <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
