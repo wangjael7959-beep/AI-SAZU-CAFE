@@ -401,49 +401,68 @@
     .card,.ai-card{padding:18px;border-radius:19px}
     .grid,.manse-grid{grid-template-columns:1fr}
     .field.full,.manse-item.wide{grid-column:auto}
-   @media (max-width:600px){
+  .profile-row{
+    display:grid;
+    grid-template-columns:72px 180px 112px;
+    align-items:center;
+    gap:12px;
+    width:100%;
+}
 
-    .field.full > div[style*="flex-wrap:nowrap"]{
-        display:grid !important;
-        grid-template-columns:72px minmax(0,1fr) auto !important;
-        align-items:center !important;
-        gap:6px !important;
-        width:100% !important;
-        box-sizing:border-box !important;
+.profile-label{
+    margin:0;
+    white-space:nowrap;
+}
+
+.profile-input{
+    width:180px;
+    max-width:180px;
+    min-width:0;
+    box-sizing:border-box;
+}
+
+.profile-choice{
+    display:grid;
+    grid-template-columns:52px 52px;
+    gap:8px;
+    margin:0;
+}
+
+.profile-choice label{
+    width:52px;
+    min-width:52px;
+    text-align:center;
+    box-sizing:border-box;
+}
+
+@media (max-width:600px){
+
+    .profile-row{
+        grid-template-columns:72px minmax(0,1fr) 100px;
+        gap:6px;
+        width:100%;
     }
 
-    #name,
-    #birthdate{
+    .profile-input{
         width:100% !important;
         max-width:none !important;
         min-width:0 !important;
-        box-sizing:border-box !important;
     }
 
-    .field.full > div[style*="flex-wrap:nowrap"] > label{
-        width:auto !important;
-        min-width:0 !important;
-        margin:0 !important;
-        white-space:nowrap !important;
+    .profile-choice{
+        grid-template-columns:48px 48px;
+        gap:4px;
+        width:100px;
+        min-width:100px;
+        margin:0;
     }
 
-    .field.full > div[style*="flex-wrap:nowrap"] > .choice{
-        display:flex !important;
-        width:auto !important;
-        min-width:0 !important;
-        gap:4px !important;
-        margin:0 !important;
-        flex-wrap:nowrap !important;
-    }
-
-    .field.full > div[style*="flex-wrap:nowrap"] > .choice label{
-        min-width:46px !important;
-        width:46px !important;
-        padding-left:6px !important;
-        padding-right:6px !important;
-        box-sizing:border-box !important;
-        text-align:center !important;
-        white-space:nowrap !important;
+    .profile-choice label{
+        width:48px;
+        min-width:48px;
+        padding-left:0;
+        padding-right:0;
+        text-align:center;
     }
 
     .time-select-row{
@@ -514,101 +533,89 @@
   </div>
 
 </div>
-       <div class="field full">
+ <div class="field full">
+    <div class="profile-row">
 
-  <div style="display:flex;align-items:center;gap:12px;flex-wrap:nowrap;">
-    <label for="name" style="margin:0;min-width:72px;">
-      이　　름 <span class="required"></span>
-    </label>
+        <label for="name" class="profile-label">
+            이&nbsp;&nbsp;&nbsp;름 <span class="required">*</span>
+        </label>
 
-    <input
-      id="name"
-      name="name"
-      type="text"
-      autocomplete="name"
-      value="{{ form.get('name','') }}"
-      placeholder="예: 홍길동"
-      required
-      style="
-        width:180px !important;
-        max-width:180px !important;
-        flex:none !important;
-      "
-    >
+        <input
+            id="name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            value="{{ form.get('name','') }}"
+            placeholder="예: 홍길동"
+            required
+            class="profile-input"
+        >
 
-     <div class="choice" style="display:flex;gap:8px;margin-left:24px;">
-      <input
-        id="gender-m"
-        name="gender"
-        type="radio"
-        value="남성"
-        {% if form.get('gender','남성') == '남성' %}checked{% endif %}
-      >
-      <label for="gender-m">남성</label>
+        <div class="choice profile-choice">
+            <input
+                id="gender-m"
+                name="gender"
+                type="radio"
+                value="남성"
+                {% if form.get('gender','남성') == '남성' %}checked{% endif %}
+            >
+            <label for="gender-m">남성</label>
 
-      <input
-        id="gender-f"
-        name="gender"
-        type="radio"
-        value="여성"
-        {% if form.get('gender') == '여성' %}checked{% endif %}
-      >
-      <label for="gender-f">여성</label>
+            <input
+                id="gender-f"
+                name="gender"
+                type="radio"
+                value="여성"
+                {% if form.get('gender') == '여성' %}checked{% endif %}
+            >
+            <label for="gender-f">여성</label>
+        </div>
 
     </div>
-
-  </div>
-
 </div>
 
-       <div class="field full">
+<div class="field full">
+    <div class="profile-row">
 
-  <div style="display:flex;align-items:center;gap:12px;flex-wrap:nowrap;">
-    <label for="birthdate" style="margin:0;min-width:72px;">
-      생년월일 
-    </label>
+        <label for="birthdate" class="profile-label">
+            생년월일
+        </label>
 
-    <input
-      id="birthdate"
-      name="birthdate"
-      type="text"
-      inputmode="numeric"
-      value="{{ form.get('birthdate','') }}"
-      placeholder="예: 1957-04-12"
-      required
-      style="
-        width:180px !important;
-        max-width:180px !important;
-        flex:none !important;
-      "
-    >
+        <input
+            id="birthdate"
+            name="birthdate"
+            type="text"
+            inputmode="numeric"
+            value="{{ form.get('birthdate','') }}"
+            placeholder="예: 1957-04-12"
+            required
+            class="profile-input"
+        >
 
-    <div class="choice calendar-choice" style="display:flex;gap:8px;margin-left:12px;">
-      <input
-        id="cal-solar"
-        name="calendar_type"
-        type="radio"
-        value="양력"
-        {% if form.get('calendar_type','양력') == '양력' %}checked{% endif %}
-      >
-      <label for="cal-solar">양력</label>
+        <div class="choice profile-choice">
+            <input
+                id="cal-solar"
+                name="calendar_type"
+                type="radio"
+                value="양력"
+                {% if form.get('calendar_type','양력') == '양력' %}checked{% endif %}
+            >
+            <label for="cal-solar">양력</label>
 
-      <input
-        id="cal-lunar"
-        name="calendar_type"
-        type="radio"
-        value="음력"
-        {% if form.get('calendar_type') == '음력' %}checked{% endif %}
-      >
-      <label for="cal-lunar">음력</label>
+            <input
+                id="cal-lunar"
+                name="calendar_type"
+                type="radio"
+                value="음력"
+                {% if form.get('calendar_type') == '음력' %}checked{% endif %}
+            >
+            <label for="cal-lunar">음력</label>
+        </div>
 
     </div>
 
-  </div>
-
-  <input type="hidden" name="leap_month" value="평달">
-
-</div> 
+    <input type="hidden" name="leap_month" value="평달">
+</div>  
 <div class="field">
   <div class="field full">
 
