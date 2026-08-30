@@ -464,8 +464,7 @@
 </div>
        <div class="field full">
 
-  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:nowrap;">
     <label for="name" style="margin:0;min-width:72px;">
       이　　름 <span class="required"></span>
     </label>
@@ -479,8 +478,8 @@
       placeholder="예: 홍길동"
       required
       style="
-        width:360px !important;
-        max-width:360px !important;
+        width:180px !important;
+        max-width:180px !important;
         flex:none !important;
       "
     >
@@ -489,7 +488,7 @@
        <span class="label">성별</span>
     </span>
 
-    <div class="choice" style="display:flex;gap:8px;">
+    <div class="choice" style="display:flex;gap:8px;margin-left:12px;">
 
       <input
         id="gender-m"
@@ -517,8 +516,7 @@
 
        <div class="field full">
 
-  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:nowrap;">
     <label for="birthdate" style="margin:0;min-width:72px;">
       생년월일 
     </label>
@@ -532,14 +530,13 @@
       placeholder="예: 1957-04-12"
       required
       style="
-        width:360px !important;
-        max-width:360px !important;
+        width:180px !important;
+        max-width:180px !important;
         flex:none !important;
       "
     >
 
-    <div class="choice calendar-choice" style="display:flex;gap:8px;margin-left:46px;">
-
+    <div class="choice calendar-choice" style="display:flex;gap:8px;margin-left:12px;">
       <input
         id="cal-solar"
         name="calendar_type"
@@ -578,7 +575,7 @@
       class="time-select-row"
       style="
         display:flex;
-        width:360px;
+        width:330px;
         gap:8px;
       "
     >
