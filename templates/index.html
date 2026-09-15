@@ -1347,7 +1347,7 @@ payButton.style.opacity = "0.7";
         },
         async function (rsp) {
 
-            if (!rsp.imp_uid) {
+           if (!rsp.success || !rsp.imp_uid) {
               payButton.disabled = false;
               payButton.textContent = "결제하기";
               payButton.style.opacity = "1";
