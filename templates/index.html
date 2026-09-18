@@ -615,7 +615,21 @@
 
     </div>
 </div>
-
+<div class="field full">
+  <div class="profile-row">
+    <label for="buyer_tel" class="profile-label">연락처</label>
+    <input
+      id="buyer_tel"
+      name="buyer_tel"
+      type="tel"
+      autocomplete="tel"
+      value="{{ form.get('buyer_tel','') }}"
+      placeholder="예: 01012345678"
+      required
+      class="profile-input"
+    >
+  </div>
+</div>
 <div class="field full">
     <div class="profile-row">
 
@@ -1341,8 +1355,7 @@ payButton.style.opacity = "0.7";
             name: "운담 사주 종합상담 1회",
             amount: 9900,
             buyer_name: document.getElementById("name")?.value || "고객",
-            buyer_tel: "070-4571-5506",
-            buyer_email: "test@example.com",
+            buyer_tel: document.getElementById("buyer_tel")?.value.trim(),
             company: "운담"
         },
         async function (rsp) {
