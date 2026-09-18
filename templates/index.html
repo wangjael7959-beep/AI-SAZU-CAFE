@@ -1341,6 +1341,13 @@ if (submitButton) {
 }
 
 payButton.addEventListener("click", async function () {
+  const buyerTel = document.getElementById("buyer_tel")?.value.trim();
+
+if (!buyerTel) {
+    alert("연락처를 입력해 주세요.");
+    document.getElementById("buyer_tel")?.focus();
+    return;
+}
   payButton.disabled = true;
 payButton.textContent = "결제창 여는 중...";
 payButton.style.opacity = "0.7";
