@@ -13,6 +13,21 @@ import urllib.request
 import urllib.parse
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "undam-secret-change-me")
+@app.route("/sitemap.xml")
+def sitemap():
+    xml = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://ai-sazu-cafe.onrender.com/</loc>
+  </url>
+  <url>
+    <loc>https://ai-sazu-cafe.onrender.com/privacy</loc>
+  </url>
+  <url>
+    <loc>https://ai-sazu-cafe.onrender.com/terms</loc>
+  </url>
+</urlset>"""
+    return xml, 200, {"Content-Type": "application/xml; charset=utf-8"}
 @app.route("/privacy")
 def privacy():
     return render_template("privacy.html")
